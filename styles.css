@@ -50,11 +50,13 @@
 
 html {
   min-width: 320px;
+  overflow-x: hidden;
 }
 
 body {
   min-height: 100vh;
   margin: 0;
+  overflow-x: hidden;
   background:
     linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
@@ -189,6 +191,10 @@ button:disabled {
   gap: 10px;
 }
 
+body[data-page="home"] #newEmailTop {
+  display: none;
+}
+
 .page-actions {
   display: flex;
   gap: 10px;
@@ -233,6 +239,7 @@ button:disabled {
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
   padding: 20px 0 0;
+  max-width: 100%;
 }
 
 .hero-copy {
@@ -766,6 +773,8 @@ h1 {
 .page-content,
 .article-page {
   max-width: 900px;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .prose {
@@ -855,12 +864,14 @@ h1 {
 .admin-panel {
   display: grid;
   gap: 14px;
+  min-width: 0;
 }
 
 .contact-form label,
 .admin-panel label {
   display: grid;
   gap: 7px;
+  min-width: 0;
   color: var(--muted);
   font-weight: 700;
 }
@@ -871,6 +882,7 @@ h1 {
 .admin-panel input,
 .admin-panel textarea {
   width: 100%;
+  min-width: 0;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface-2);
