@@ -1,10 +1,18 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d1519" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Inboqa Mail" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="icon" href="assets/inboqa-icon-192.png" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>لوحة تحكم Inboqa Mail</title>
+    <title>Ù„ÙˆØ­Ø© ØªØ­ÙƒÙ… Inboqa Mail</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body data-page="admin">
@@ -12,23 +20,23 @@
       <section class="admin-login" id="loginView">
         <div class="admin-card">
           <p class="eyebrow">Dashboard</p>
-          <h1>لوحة تحكم Inboqa Mail</h1>
-          <p>هذه الصفحة غير مرتبطة من الموقع الرئيسي. افتحها من الملف أو الرابط المباشر فقط.</p>
+          <h1>Ù„ÙˆØ­Ø© ØªØ­ÙƒÙ… Inboqa Mail</h1>
+          <p>Ù‡Ø°Ù‡ Ø§Ù„ØµÙØ­Ø© ØºÙŠØ± Ù…Ø±ØªØ¨Ø·Ø© Ù…Ù† Ø§Ù„Ù…ÙˆÙ‚Ø¹ Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠ. Ø§ÙØªØ­Ù‡Ø§ Ù…Ù† Ø§Ù„Ù…Ù„Ù Ø£Ùˆ Ø§Ù„Ø±Ø§Ø¨Ø· Ø§Ù„Ù…Ø¨Ø§Ø´Ø± ÙÙ‚Ø·.</p>
           <div class="credential-box">
-            <span>بيانات الدخول التجريبية</span>
+            <span>Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ø¯Ø®ÙˆÙ„ Ø§Ù„ØªØ¬Ø±ÙŠØ¨ÙŠØ©</span>
             <strong>admin@inboqa.local</strong>
             <strong>InboqaMail@2026</strong>
           </div>
           <form id="loginForm" class="contact-form">
             <label>
-              البريد
+              Ø§Ù„Ø¨Ø±ÙŠØ¯
               <input id="adminEmail" type="text" autocomplete="username" />
             </label>
             <label>
-              كلمة المرور
+              ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±
               <input id="adminPassword" type="password" autocomplete="current-password" />
             </label>
-            <button class="primary-button" type="submit">دخول</button>
+            <button class="primary-button" type="submit">Ø¯Ø®ÙˆÙ„</button>
           </form>
         </div>
       </section>
@@ -37,92 +45,92 @@
         <header class="admin-topbar">
           <div>
             <p class="eyebrow">Inboqa Mail CMS</p>
-            <h1>إدارة المحتوى</h1>
+            <h1>Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„Ù…Ø­ØªÙˆÙ‰</h1>
           </div>
           <div class="top-actions">
-            <a class="ghost-button" href="./">عرض الموقع</a>
-            <button class="danger-button" id="logoutButton" type="button">خروج</button>
+            <a class="ghost-button" href="./">Ø¹Ø±Ø¶ Ø§Ù„Ù…ÙˆÙ‚Ø¹</a>
+            <button class="danger-button" id="logoutButton" type="button">Ø®Ø±ÙˆØ¬</button>
           </div>
         </header>
 
         <section class="admin-grid">
           <form class="admin-panel" id="sectionForm">
-            <h2>إضافة سكشن للصفحة الرئيسية</h2>
+            <h2>Ø¥Ø¶Ø§ÙØ© Ø³ÙƒØ´Ù† Ù„Ù„ØµÙØ­Ø© Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©</h2>
             <label>
-              العنوان
-              <input name="title" required placeholder="مثلا: حماية أسرع للتسجيلات" />
+              Ø§Ù„Ø¹Ù†ÙˆØ§Ù†
+              <input name="title" required placeholder="Ù…Ø«Ù„Ø§: Ø­Ù…Ø§ÙŠØ© Ø£Ø³Ø±Ø¹ Ù„Ù„ØªØ³Ø¬ÙŠÙ„Ø§Øª" />
             </label>
             <label>
-              الأيقونة
+              Ø§Ù„Ø£ÙŠÙ‚ÙˆÙ†Ø©
               <input name="icon" placeholder="shield-check" />
             </label>
             <label>
-              النص
-              <textarea name="content" rows="5" required placeholder="اكتب وصف السكشن"></textarea>
+              Ø§Ù„Ù†Øµ
+              <textarea name="content" rows="5" required placeholder="Ø§ÙƒØªØ¨ ÙˆØµÙ Ø§Ù„Ø³ÙƒØ´Ù†"></textarea>
             </label>
-            <button class="primary-button" type="submit">إضافة السكشن</button>
+            <button class="primary-button" type="submit">Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ø³ÙƒØ´Ù†</button>
           </form>
 
           <form class="admin-panel" id="pageForm">
-            <h2>إضافة صفحة للهيدر</h2>
+            <h2>Ø¥Ø¶Ø§ÙØ© ØµÙØ­Ø© Ù„Ù„Ù‡ÙŠØ¯Ø±</h2>
             <label>
-              اسم الصفحة
-              <input name="title" required placeholder="مثلا: الاستخدام التجاري" />
+              Ø§Ø³Ù… Ø§Ù„ØµÙØ­Ø©
+              <input name="title" required placeholder="Ù…Ø«Ù„Ø§: Ø§Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„ØªØ¬Ø§Ø±ÙŠ" />
             </label>
             <label>
-              الرابط المختصر
+              Ø§Ù„Ø±Ø§Ø¨Ø· Ø§Ù„Ù…Ø®ØªØµØ±
               <input name="slug" required placeholder="commercial-use" />
             </label>
             <label>
-              المحتوى
-              <textarea name="content" rows="7" required placeholder="اكتب محتوى الصفحة"></textarea>
+              Ø§Ù„Ù…Ø­ØªÙˆÙ‰
+              <textarea name="content" rows="7" required placeholder="Ø§ÙƒØªØ¨ Ù…Ø­ØªÙˆÙ‰ Ø§Ù„ØµÙØ­Ø©"></textarea>
             </label>
-            <button class="primary-button" type="submit">إضافة الصفحة</button>
+            <button class="primary-button" type="submit">Ø¥Ø¶Ø§ÙØ© Ø§Ù„ØµÙØ­Ø©</button>
           </form>
 
           <form class="admin-panel" id="articleForm">
-            <h2>كتابة مقال جديد</h2>
+            <h2>ÙƒØªØ§Ø¨Ø© Ù…Ù‚Ø§Ù„ Ø¬Ø¯ÙŠØ¯</h2>
             <label>
-              عنوان المقال
-              <input name="title" required placeholder="عنوان جذاب ومفيد" />
+              Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ù…Ù‚Ø§Ù„
+              <input name="title" required placeholder="Ø¹Ù†ÙˆØ§Ù† Ø¬Ø°Ø§Ø¨ ÙˆÙ…ÙÙŠØ¯" />
             </label>
             <label>
-              التصنيف
-              <input name="category" required placeholder="خصوصية" />
+              Ø§Ù„ØªØµÙ†ÙŠÙ
+              <input name="category" required placeholder="Ø®ØµÙˆØµÙŠØ©" />
             </label>
             <label>
-              الرابط المختصر
+              Ø§Ù„Ø±Ø§Ø¨Ø· Ø§Ù„Ù…Ø®ØªØµØ±
               <input name="slug" required placeholder="my-article" />
             </label>
             <label>
-              الوصف المختصر
-              <textarea name="excerpt" rows="3" required placeholder="ملخص يظهر في كارت المقال"></textarea>
+              Ø§Ù„ÙˆØµÙ Ø§Ù„Ù…Ø®ØªØµØ±
+              <textarea name="excerpt" rows="3" required placeholder="Ù…Ù„Ø®Øµ ÙŠØ¸Ù‡Ø± ÙÙŠ ÙƒØ§Ø±Øª Ø§Ù„Ù…Ù‚Ø§Ù„"></textarea>
             </label>
             <label>
-              المقال
-              <textarea name="content" rows="9" required placeholder="اكتب المقال كاملا"></textarea>
+              Ø§Ù„Ù…Ù‚Ø§Ù„
+              <textarea name="content" rows="9" required placeholder="Ø§ÙƒØªØ¨ Ø§Ù„Ù…Ù‚Ø§Ù„ ÙƒØ§Ù…Ù„Ø§"></textarea>
             </label>
-            <button class="primary-button" type="submit">نشر المقال</button>
+            <button class="primary-button" type="submit">Ù†Ø´Ø± Ø§Ù„Ù…Ù‚Ø§Ù„</button>
           </form>
 
           <section class="admin-panel">
-            <h2>أفكار تطوير مقترحة</h2>
+            <h2>Ø£ÙÙƒØ§Ø± ØªØ·ÙˆÙŠØ± Ù…Ù‚ØªØ±Ø­Ø©</h2>
             <div class="info-list">
               <div>
-                <strong>ربط باك إند</strong>
-                <span>نقل بيانات لوحة التحكم من localStorage إلى قاعدة بيانات.</span>
+                <strong>Ø±Ø¨Ø· Ø¨Ø§Ùƒ Ø¥Ù†Ø¯</strong>
+                <span>Ù†Ù‚Ù„ Ø¨ÙŠØ§Ù†Ø§Øª Ù„ÙˆØ­Ø© Ø§Ù„ØªØ­ÙƒÙ… Ù…Ù† localStorage Ø¥Ù„Ù‰ Ù‚Ø§Ø¹Ø¯Ø© Ø¨ÙŠØ§Ù†Ø§Øª.</span>
               </div>
               <div>
-                <strong>تحسين الأمان</strong>
-                <span>إضافة Cloudflare Turnstile للنماذج وتقليل الرسائل المزعجة.</span>
+                <strong>ØªØ­Ø³ÙŠÙ† Ø§Ù„Ø£Ù…Ø§Ù†</strong>
+                <span>Ø¥Ø¶Ø§ÙØ© Cloudflare Turnstile Ù„Ù„Ù†Ù…Ø§Ø°Ø¬ ÙˆØªÙ‚Ù„ÙŠÙ„ Ø§Ù„Ø±Ø³Ø§Ø¦Ù„ Ø§Ù„Ù…Ø²Ø¹Ø¬Ø©.</span>
               </div>
               <div>
-                <strong>إدارة الإعلانات</strong>
-                <span>حقول لوضع Publisher ID و Ad Slot IDs من لوحة التحكم.</span>
+                <strong>Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†Ø§Øª</strong>
+                <span>Ø­Ù‚ÙˆÙ„ Ù„ÙˆØ¶Ø¹ Publisher ID Ùˆ Ad Slot IDs Ù…Ù† Ù„ÙˆØ­Ø© Ø§Ù„ØªØ­ÙƒÙ….</span>
               </div>
               <div>
-                <strong>SEO متقدم</strong>
-                <span>توليد sitemap تلقائي ومخطط Article JSON-LD لكل مقال.</span>
+                <strong>SEO Ù…ØªÙ‚Ø¯Ù…</strong>
+                <span>ØªÙˆÙ„ÙŠØ¯ sitemap ØªÙ„Ù‚Ø§Ø¦ÙŠ ÙˆÙ…Ø®Ø·Ø· Article JSON-LD Ù„ÙƒÙ„ Ù…Ù‚Ø§Ù„.</span>
               </div>
             </div>
           </section>
@@ -132,9 +140,9 @@
           <div class="panel-head">
             <div>
               <p class="eyebrow">Content</p>
-              <h2>المحتوى الحالي</h2>
+              <h2>Ø§Ù„Ù…Ø­ØªÙˆÙ‰ Ø§Ù„Ø­Ø§Ù„ÙŠ</h2>
             </div>
-            <button class="danger-button" id="resetContent" type="button">مسح محتوى اللوحة</button>
+            <button class="danger-button" id="resetContent" type="button">Ù…Ø³Ø­ Ù…Ø­ØªÙˆÙ‰ Ø§Ù„Ù„ÙˆØ­Ø©</button>
           </div>
           <div class="admin-lists" id="contentLists"></div>
         </section>
@@ -147,3 +155,5 @@
     <script src="admin.js"></script>
   </body>
 </html>
+
+

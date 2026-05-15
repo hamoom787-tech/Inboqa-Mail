@@ -17,6 +17,7 @@
     renderDynamicPage();
     renderCustomSections();
     bindTheme();
+    registerServiceWorker();
     refreshIcons();
   }
 
@@ -280,6 +281,14 @@
 
   function refreshIcons() {
     if (window.lucide) window.lucide.createIcons();
+  }
+
+  function registerServiceWorker() {
+    if (!("serviceWorker" in navigator) || location.protocol !== "https:") return;
+
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
+    });
   }
 
   window.InboqaSite = {
