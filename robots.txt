@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin.html
 Disallow: /admin
 
-Sitemap: https://inboqa.pages.dev/sitemap.xml
+Sitemap: https://inboqa-mail.pages.dev/sitemap.xml

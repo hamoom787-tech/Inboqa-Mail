@@ -1,1 +1,1 @@
-# Add your new Google AdSense publisher record here after creating the new account.
+google.com, pub-1094415599126209, DIRECT, f08c47fec0942fa0
