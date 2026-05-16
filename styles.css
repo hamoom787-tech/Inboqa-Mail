@@ -99,6 +99,11 @@ button:disabled {
   overflow-x: hidden;
 }
 
+[data-site-header] {
+  display: block;
+  min-height: 90px;
+}
+
 .topbar,
 .hero-panel,
 .inbox-panel,
@@ -443,6 +448,13 @@ h1 {
   border-radius: var(--radius);
   border-style: dashed;
   text-align: center;
+}
+
+.content-section,
+.site-footer,
+.ad-grid-block {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 520px;
 }
 
 .ad-grid-block {
@@ -1073,6 +1085,10 @@ h1 {
 @media (max-width: 560px) {
   .app-shell {
     padding: 12px;
+  }
+
+  [data-site-header] {
+    min-height: 148px;
   }
 
   .topbar {

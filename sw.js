@@ -1,30 +1,29 @@
-const CACHE_NAME = "inboqa-mail-v1";
+const CACHE_NAME = "inboqa-mail-v2";
 const APP_SHELL = [
-  "/",
-  "/index.html",
-  "/about",
-  "/blog",
-  "/contact",
-  "/faq",
-  "/privacy",
-  "/terms",
-  "/styles.css",
-  "/site.js",
-  "/site-data.js",
-  "/seo-articles.js",
-  "/app.js",
-  "/contact.js",
-  "/site.webmanifest",
-  "/assets/inboqa-logo.png",
-  "/assets/inboqa-icon-192.png",
-  "/assets/inboqa-icon-512.png",
-  "/assets/apple-touch-icon.png"
+  ".",
+  "index.html",
+  "about",
+  "blog",
+  "contact",
+  "faq",
+  "privacy",
+  "terms",
+  "styles.css",
+  "site.js",
+  "site-data.js",
+  "seo-articles.js",
+  "app.js",
+  "contact.js",
+  "site.webmanifest",
+  "assets/inboqa-icon-192.png",
+  "assets/inboqa-icon-512.png",
+  "assets/apple-touch-icon.png"
 ];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(APP_SHELL))
+      .then((cache) => cache.addAll(APP_SHELL.map((url) => new URL(url, self.registration.scope))))
       .then(() => self.skipWaiting())
   );
 });
@@ -51,7 +50,7 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
           return response;
         })
-        .catch(() => caches.match(request).then((cached) => cached || caches.match("/index.html")))
+        .catch(() => caches.match(request).then((cached) => cached || caches.match(new URL("index.html", self.registration.scope))))
     );
     return;
   }

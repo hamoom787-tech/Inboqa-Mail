@@ -10,7 +10,6 @@
   function initSite() {
     hydrateTheme();
     renderHeader();
-    renderPageAds();
     renderFooter();
     renderArticles();
     renderArticlePage();
@@ -159,7 +158,7 @@
 
   function logoMarkup() {
     return `
-      <img class="brand-logo" src="assets/inboqa-logo.png" alt="" width="72" height="72" loading="eager" decoding="async" />
+      <img class="brand-logo" src="assets/inboqa-icon-192.png" alt="" width="72" height="72" loading="eager" decoding="async" />
     `;
   }
 
@@ -287,7 +286,11 @@
     if (!("serviceWorker" in navigator) || location.protocol !== "https:") return;
 
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("/sw.js").catch(() => {});
+      const manifest = document.querySelector('link[rel="manifest"]');
+      const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
+      const workerUrl = new URL("sw.js", baseUrl);
+      const scopeUrl = new URL("./", baseUrl);
+      navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname }).catch(() => {});
     });
   }
 
