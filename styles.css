@@ -501,6 +501,19 @@ h1 {
   overflow: hidden;
 }
 
+.affiliate-ad-stack {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  min-height: 150px;
+}
+
+.affiliate-ad-stack .affiliate-ad-link {
+  width: auto;
+  height: auto;
+}
+
 .affiliate-ad-horizontal .affiliate-ad-link img {
   width: min(320px, 100%);
   max-height: 100px;
@@ -533,6 +546,17 @@ h1 {
 
 .affiliate-ad-card {
   min-height: 320px;
+}
+
+.affiliate-ad-skyscraper {
+  min-height: 620px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.affiliate-ad-skyscraper .affiliate-ad-link img {
+  width: min(160px, 100%);
+  max-height: 600px;
 }
 
 .affiliate-ad-tall {

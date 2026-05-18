@@ -111,9 +111,24 @@
 
     target.innerHTML = `
       <section class="ad-grid-block" aria-label="مساحات اعلانية قبل الفوتر">
+        <div class="ad-slot ad-wide affiliate-ad-horizontal affiliate-ad-leaderboard">
+          <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+            <img src="https://www.coinpayu.com/static/advertiser_banner/728X90_es.gif" width="728" height="90" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+          </a>
+        </div>
         <div class="ad-slot ad-wide affiliate-ad-horizontal">
           <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
             <img src="https://www.coinpayu.com/static/advertiser_banner/320X100_ru.gif" width="320" height="100" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+          </a>
+        </div>
+        <div class="ad-slot ad-card affiliate-ad-skyscraper">
+          <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+            <img src="https://www.coinpayu.com/static/advertiser_banner/160X600.gif" width="160" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+          </a>
+        </div>
+        <div class="ad-slot ad-card affiliate-ad-skyscraper">
+          <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+            <img src="https://www.coinpayu.com/static/advertiser_banner/160X600_es.gif" width="160" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
           </a>
         </div>
         <div class="ad-slot ad-card affiliate-ad-tall">
