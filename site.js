@@ -111,9 +111,10 @@
 
     target.innerHTML = `
       <section class="ad-grid-block" aria-label="مساحات اعلانية قبل الفوتر">
-        <div class="ad-slot ad-wide">
-          <span>مساحة اعلان Google AdSense</span>
-          <strong>In-Article Responsive</strong>
+        <div class="ad-slot ad-wide affiliate-ad-horizontal">
+          <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+            <img src="https://www.coinpayu.com/static/advertiser_banner/320X100_ru.gif" width="320" height="100" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+          </a>
         </div>
         <div class="ad-slot ad-card affiliate-ad-card">
           <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
