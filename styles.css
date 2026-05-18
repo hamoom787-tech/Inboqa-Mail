@@ -1220,6 +1220,71 @@ h1 {
   transform: translate(50%, 0);
 }
 
+.has-modal {
+  overflow: hidden;
+}
+
+.generate-ad-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(10, 16, 22, 0.72);
+  backdrop-filter: blur(12px);
+}
+
+.generate-ad-modal {
+  position: relative;
+  display: grid;
+  width: min(420px, 100%);
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.36);
+  text-align: center;
+}
+
+.generate-ad-modal h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.generate-ad-close {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+
+.generate-ad-slot {
+  display: grid;
+  min-height: 280px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+
+.generate-ad-slot script {
+  display: none;
+}
+
+.generate-ad-slot img,
+.generate-ad-slot iframe,
+.generate-ad-slot ins {
+  max-width: 100%;
+}
+
+.generate-ad-slot img {
+  width: min(300px, 100%);
+  height: auto;
+  border-radius: 6px;
+}
+
 .is-loading {
   opacity: 0.72;
 }

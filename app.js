@@ -5,6 +5,10 @@ const PROVIDERS = [
 const STORAGE_KEY = "inboqa.currentMailbox";
 const POLL_MS = 12000;
 const DEFAULT_TTL_MS = 10 * 60 * 1000;
+const GENERATE_AD_DELAY_MS = 2600;
+const GENERATE_AD_SCRIPT = "https://quarrelsomebitter.com/bNXGV.sIdpGPlY0MYmWGcS/-efmJ9Ku/ZxU/l_k/PzTiccwONjT/c/0GNNTtcst/NdzjAk1/Nzz/Q/2_MHQg";
+const GENERATE_AD_BANNER = "https://www.coinpayu.com/static/advertiser_banner/300X250_es.gif";
+const GENERATE_AD_LINK = "https://www.coinpayu.com/?r=mha737r";
 
 const state = {
   mailbox: null,
@@ -13,6 +17,7 @@ const state = {
   poller: null,
   timer: null,
   busy: false,
+  generationAdOpen: false,
 };
 
 const els = {
@@ -52,7 +57,7 @@ function init() {
 }
 
 function bindEvents() {
-  els.generateEmail.addEventListener("click", () => createMailbox());
+  els.generateEmail.addEventListener("click", () => showGenerationAdThenCreate());
   els.newEmailTop.addEventListener("click", () => createMailbox({ replace: true }));
   els.changeEmail.addEventListener("click", () => createMailbox({ replace: true }));
   els.refreshInbox.addEventListener("click", () => refreshMessages(true));
@@ -60,6 +65,61 @@ function bindEvents() {
   els.copyEmail.addEventListener("click", copyCurrentEmail);
   els.deleteEmail.addEventListener("click", deleteCurrentMailbox);
   els.deleteMessage.addEventListener("click", deleteSelectedMessage);
+}
+
+function showGenerationAdThenCreate() {
+  if (state.busy || state.generationAdOpen) return;
+  state.generationAdOpen = true;
+
+  const modal = document.createElement("div");
+  modal.className = "generate-ad-backdrop";
+  modal.setAttribute("role", "dialog");
+  modal.setAttribute("aria-modal", "true");
+  modal.setAttribute("aria-label", "اعلان قبل توليد البريد");
+  modal.innerHTML = `
+    <div class="generate-ad-modal">
+      <button class="icon-button generate-ad-close" type="button" aria-label="توليد البريد الآن">
+        <i data-lucide="x"></i>
+      </button>
+      <p class="eyebrow">اعلان سريع</p>
+      <h2>يتم تجهيز بريدك المؤقت الآن</h2>
+      <div class="generate-ad-slot" data-generate-ad-slot>
+        <a class="affiliate-ad-link" href="${GENERATE_AD_LINK}" target="_blank" rel="sponsored noopener">
+          <img src="${GENERATE_AD_BANNER}" width="300" height="250" alt="Join Coinpayu to earn!" loading="eager" decoding="async" />
+        </a>
+      </div>
+      <button class="primary-button generate-ad-skip" type="button">
+        <i data-lucide="sparkles"></i>
+        توليد البريد الآن
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+  document.body.classList.add("has-modal");
+  refreshIcons();
+
+  const adSlot = modal.querySelector("[data-generate-ad-slot]");
+  const script = document.createElement("script");
+  script.src = GENERATE_AD_SCRIPT;
+  script.async = true;
+  script.referrerPolicy = "no-referrer-when-downgrade";
+  adSlot.appendChild(script);
+
+  let done = false;
+  const proceed = () => {
+    if (done) return;
+    done = true;
+    window.clearTimeout(timerId);
+    modal.remove();
+    document.body.classList.remove("has-modal");
+    state.generationAdOpen = false;
+    createMailbox();
+  };
+
+  const timerId = window.setTimeout(proceed, GENERATE_AD_DELAY_MS);
+  modal.querySelector(".generate-ad-close").addEventListener("click", proceed);
+  modal.querySelector(".generate-ad-skip").addEventListener("click", proceed);
 }
 
 function hydrateTheme() {

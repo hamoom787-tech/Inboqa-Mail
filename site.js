@@ -162,7 +162,7 @@
 
     const rails = sideCoinpayuBanners
       .map((banner) => `
-        <aside class="side-ad-rail side-ad-rail-${banner.label}" aria-label="Ù…Ø³Ø§Ø­Ø© Ø¥Ø¹Ù„Ø§Ù† Ø¬Ø§Ù†Ø¨ÙŠØ©">
+        <aside class="side-ad-rail side-ad-rail-${banner.label}" aria-label="Side advertisement">
           <a class="affiliate-ad-link" href="${coinpayuUrl}" target="_blank" rel="sponsored noopener">
             <img src="${banner.src}" width="${banner.width}" height="${banner.height}" alt="Join Coinpayu to earn!" loading="eager" decoding="async" />
           </a>
@@ -343,7 +343,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260519-rails1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260519-genad1", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
