@@ -13,6 +13,11 @@
     { src: "https://www.coinpayu.com/static/advertiser_banner/300X250_es.gif", width: 300, height: 250, slotClass: "ad-card affiliate-ad-square" },
     { src: "https://www.coinpayu.com/static/advertiser_banner/160X600_es.gif", width: 160, height: 600, slotClass: "ad-card affiliate-ad-skyscraper" },
   ];
+  const contentCoinpayuBanners = coinpayuBanners.filter((banner) => !banner.slotClass.includes("skyscraper"));
+  const sideCoinpayuBanners = [
+    { src: "https://www.coinpayu.com/static/advertiser_banner/160X600.gif", width: 160, height: 600, label: "right" },
+    { src: "https://www.coinpayu.com/static/advertiser_banner/160X600_es.gif", width: 160, height: 600, label: "left" },
+  ];
   const networkAdScripts = {
     top: "https://quarrelsomebitter.com/b/X_Vys.deGjlg0GYMWZcB/sekmG9nuHZdUSltkZPrTMcRweNxTrcJ0mMDj/E/tHNJzcAB1cN/zUQ/yaNlQn",
     middle: "https://quarrelsomebitter.com/bNXGV.sIdpGPlY0MYmWGcS/-efmJ9Ku/ZxU/l_k/PzTiccwONjT/c/0GNNTtcst/NdzjAk1/Nzz/Q/2_MHQg",
@@ -23,6 +28,7 @@
     hydrateTheme();
     renderHeader();
     renderPageAds();
+    renderSideRailAds();
     renderFooter();
     renderNetworkAds();
     renderArticles();
@@ -151,13 +157,29 @@
     `;
   }
 
+  function renderSideRailAds() {
+    if (document.querySelector("[data-side-ad-rails]")) return;
+
+    const rails = sideCoinpayuBanners
+      .map((banner) => `
+        <aside class="side-ad-rail side-ad-rail-${banner.label}" aria-label="Ù…Ø³Ø§Ø­Ø© Ø¥Ø¹Ù„Ø§Ù† Ø¬Ø§Ù†Ø¨ÙŠØ©">
+          <a class="affiliate-ad-link" href="${coinpayuUrl}" target="_blank" rel="sponsored noopener">
+            <img src="${banner.src}" width="${banner.width}" height="${banner.height}" alt="Join Coinpayu to earn!" loading="eager" decoding="async" />
+          </a>
+        </aside>
+      `)
+      .join("");
+
+    document.body.insertAdjacentHTML("beforeend", `<div class="side-ad-rails" data-side-ad-rails>${rails}</div>`);
+  }
+
   function renderFooter() {
     const target = document.querySelector("[data-site-footer]");
     if (!target) return;
     const navItems = getPages()
       .map((item) => `<a href="${item.href}">${escapeHtml(item.label)}</a>`)
       .join("");
-    const coinpayuAds = coinpayuBanners.map(coinpayuAd).join("");
+    const coinpayuAds = contentCoinpayuBanners.map(coinpayuAd).join("");
 
     target.innerHTML = `
       ${networkAdSlot("middle", "network-ad-mid")}
@@ -321,7 +343,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260518-ads4", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260519-rails1", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())

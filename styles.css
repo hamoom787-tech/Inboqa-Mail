@@ -620,6 +620,42 @@ h1 {
   max-height: 600px;
 }
 
+.side-ad-rails {
+  display: none;
+}
+
+.side-ad-rail {
+  position: fixed;
+  top: 112px;
+  z-index: 8;
+  display: grid;
+  width: 170px;
+  min-height: 620px;
+  place-items: center;
+  padding: 10px 5px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.side-ad-rail-right {
+  right: max(16px, calc((100vw - 1460px) / 2 - 194px));
+}
+
+.side-ad-rail-left {
+  left: max(16px, calc((100vw - 1460px) / 2 - 194px));
+}
+
+.side-ad-rail img {
+  width: 160px;
+  height: 600px;
+  max-width: 100%;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
 .ad-wide {
   min-height: 120px;
   margin: 0;
@@ -1230,6 +1266,16 @@ h1 {
     top: 20px;
     display: block;
     align-self: start;
+  }
+}
+
+@media (min-width: 1280px) and (min-height: 760px) {
+  body {
+    padding-inline: 188px;
+  }
+
+  .side-ad-rails {
+    display: contents;
   }
 }
 
