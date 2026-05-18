@@ -13,7 +13,11 @@
     { src: "https://www.coinpayu.com/static/advertiser_banner/300X250_es.gif", width: 300, height: 250, slotClass: "ad-card affiliate-ad-square" },
     { src: "https://www.coinpayu.com/static/advertiser_banner/160X600_es.gif", width: 160, height: 600, slotClass: "ad-card affiliate-ad-skyscraper" },
   ];
-  const networkAdScript = "https://quarrelsomebitter.com/b/X_Vys.deGjlg0GYMWZcB/sekmG9nuHZdUSltkZPrTMcRweNxTrcJ0mMDj/E/tHNJzcAB1cN/zUQ/yaNlQn";
+  const networkAdScripts = {
+    top: "https://quarrelsomebitter.com/b/X_Vys.deGjlg0GYMWZcB/sekmG9nuHZdUSltkZPrTMcRweNxTrcJ0mMDj/E/tHNJzcAB1cN/zUQ/yaNlQn",
+    middle: "https://quarrelsomebitter.com/bNXGV.sIdpGPlY0MYmWGcS/-efmJ9Ku/ZxU/l_k/PzTiccwONjT/c/0GNNTtcst/NdzjAk1/Nzz/Q/2_MHQg",
+    bottom: "https://exalted-engineering.com/cuDc9l6lb.2p5GlXSdW/Qx9INNzCAb1iNCzRQj0MOtSW0p3xMeDTUE3AN_D/Uuzh",
+  };
 
   function initSite() {
     hydrateTheme();
@@ -112,13 +116,21 @@
   function renderNetworkAds() {
     document.querySelectorAll("[data-network-ad-slot]").forEach((slot) => {
       if (slot.dataset.networkLoaded === "true") return;
+      const scriptSrc = networkAdScripts[networkAdKey(slot.dataset.networkAdSlot || "")];
+      if (!scriptSrc) return;
       slot.dataset.networkLoaded = "true";
       const script = document.createElement("script");
-      script.src = networkAdScript;
+      script.src = scriptSrc;
       script.async = true;
       script.referrerPolicy = "no-referrer-when-downgrade";
       slot.appendChild(script);
     });
+  }
+
+  function networkAdKey(slotName) {
+    if (slotName.includes("bottom")) return "bottom";
+    if (slotName.includes("middle")) return "middle";
+    return "top";
   }
 
   function networkAdSlot(name, extraClass = "") {
@@ -309,7 +321,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260518-ads3", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260518-ads4", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
