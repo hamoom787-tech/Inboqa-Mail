@@ -17,6 +17,9 @@
   </head>
   <body data-page="admin">
     <main class="admin-shell">
+      <section class="ad-banner network-ad-slot page-ad" data-network-ad-slot="admin-top" aria-label="مساحة اعلانية">
+        <span>مساحة إعلان</span>
+      </section>
       <section class="admin-login" id="loginView">
         <div class="admin-card">
           <p class="eyebrow">Dashboard</p>
@@ -52,6 +55,10 @@
             <button class="danger-button" id="logoutButton" type="button">خروج</button>
           </div>
         </header>
+
+        <section class="ad-banner network-ad-slot network-ad-mid" data-network-ad-slot="admin-middle" aria-label="مساحة اعلانية">
+          <span>مساحة إعلان</span>
+        </section>
 
         <section class="admin-grid">
           <form class="admin-panel" id="sectionForm">
@@ -146,12 +153,16 @@
           </div>
           <div class="admin-lists" id="contentLists"></div>
         </section>
+        <section class="ad-banner network-ad-slot footer-ad" data-network-ad-slot="admin-bottom" aria-label="مساحة اعلانية">
+          <span>مساحة إعلان</span>
+        </section>
       </section>
     </main>
 
     <div class="toast" id="adminToast" role="status" aria-live="polite"></div>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script src="site-data.js"></script>
+    <script src="site.js?v=20260518-ads3"></script>
     <script src="admin.js"></script>
   </body>
 </html>
