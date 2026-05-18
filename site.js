@@ -27,7 +27,6 @@
   function initSite() {
     hydrateTheme();
     renderHeader();
-    renderPageAds();
     renderSideRailAds();
     renderFooter();
     renderNetworkAds();
@@ -110,15 +109,6 @@
     `;
   }
 
-  function renderPageAds() {
-    const header = document.querySelector("[data-site-header]");
-    if (!header || document.querySelector("[data-page-top-ad]")) return;
-
-    header.insertAdjacentHTML("afterend", `
-      ${networkAdSlot("top", "page-ad")}
-    `);
-  }
-
   function renderNetworkAds() {
     document.querySelectorAll("[data-network-ad-slot]").forEach((slot) => {
       if (slot.dataset.networkLoaded === "true") return;
@@ -186,7 +176,7 @@
       <section class="ad-grid-block" aria-label="مساحات اعلانية قبل الفوتر">
         ${coinpayuAds}
       </section>
-      ${networkAdSlot("bottom", "footer-ad")}
+      ${networkAdSlot("top", "footer-ad")}
       <footer class="site-footer">
         <nav class="footer-nav" aria-label="روابط الصفحات">${navItems}</nav>
         <div>
@@ -343,7 +333,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260519-genad1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260519-topmove1", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
