@@ -328,9 +328,11 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260518-ads2", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
-      navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname }).catch(() => {});
+      navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
+        .then((registration) => registration.update())
+        .catch(() => {});
     });
   }
 

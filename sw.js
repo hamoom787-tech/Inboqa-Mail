@@ -1,4 +1,4 @@
-const CACHE_NAME = "inboqa-mail-v2";
+const CACHE_NAME = "inboqa-mail-v3";
 const APP_SHELL = [
   ".",
   "index.html",
@@ -8,8 +8,8 @@ const APP_SHELL = [
   "faq",
   "privacy",
   "terms",
-  "styles.css",
-  "site.js",
+  "styles.css?v=20260518-ads2",
+  "site.js?v=20260518-ads2",
   "site-data.js",
   "seo-articles.js",
   "app.js",
@@ -51,6 +51,21 @@ self.addEventListener("fetch", (event) => {
           return response;
         })
         .catch(() => caches.match(request).then((cached) => cached || caches.match(new URL("index.html", self.registration.scope))))
+    );
+    return;
+  }
+
+  if (["script", "style"].includes(request.destination)) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+          }
+          return response;
+        })
+        .catch(() => caches.match(request))
     );
     return;
   }
