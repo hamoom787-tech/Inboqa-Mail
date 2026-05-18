@@ -10,6 +10,7 @@
   function initSite() {
     hydrateTheme();
     renderHeader();
+    renderPageAds();
     renderFooter();
     renderArticles();
     renderArticlePage();
@@ -95,9 +96,28 @@
     if (!header || document.querySelector("[data-page-top-ad]")) return;
 
     header.insertAdjacentHTML("afterend", `
-      <section class="ad-banner page-ad" data-page-top-ad aria-label="مساحة اعلانية">
-        <span>مساحة اعلان Google AdSense</span>
-        <strong>Responsive Display Ad</strong>
+      <section class="ad-banner page-ad affiliate-ad-horizontal affiliate-ad-stack" data-page-top-ad aria-label="مساحة اعلانية">
+        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+          <img src="https://www.coinpayu.com/static/advertiser_banner/728X90_es.gif" width="728" height="90" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+        </a>
+        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+          <img src="https://www.coinpayu.com/static/advertiser_banner/468X60.gif" width="468" height="60" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+        </a>
+        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+          <img src="https://www.coinpayu.com/static/advertiser_banner/320X100_ru.gif" width="320" height="100" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+        </a>
+        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+          <img src="https://www.coinpayu.com/static/advertiser_banner/300X250_es.gif" width="300" height="250" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+        </a>
+        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+          <img src="https://www.coinpayu.com/static/advertiser_banner/160X600.gif" width="160" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+        </a>
+        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+          <img src="https://www.coinpayu.com/static/advertiser_banner/160X600_es.gif" width="160" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+        </a>
+        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+          <img src="https://www.coinpayu.com/static/advertiser_banner/300X600.gif" width="300" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+        </a>
       </section>
     `);
   }

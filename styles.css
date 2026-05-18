@@ -514,6 +514,36 @@ h1 {
   height: auto;
 }
 
+.affiliate-ad-horizontal.affiliate-ad-stack img[width="728"] {
+  width: min(728px, 100%);
+  max-height: 90px;
+}
+
+.affiliate-ad-horizontal.affiliate-ad-stack img[width="468"] {
+  width: min(468px, 100%);
+  max-height: 60px;
+}
+
+.affiliate-ad-horizontal.affiliate-ad-stack img[width="320"] {
+  width: min(320px, 100%);
+  max-height: 100px;
+}
+
+.affiliate-ad-horizontal.affiliate-ad-stack img[width="300"][height="250"] {
+  width: min(300px, 100%);
+  max-height: 250px;
+}
+
+.affiliate-ad-horizontal.affiliate-ad-stack img[width="160"] {
+  width: min(160px, 100%);
+  max-height: 600px;
+}
+
+.affiliate-ad-horizontal.affiliate-ad-stack img[width="300"][height="600"] {
+  width: min(300px, 100%);
+  max-height: 600px;
+}
+
 .affiliate-ad-horizontal .affiliate-ad-link img {
   width: min(320px, 100%);
   max-height: 100px;
