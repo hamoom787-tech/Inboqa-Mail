@@ -6,12 +6,21 @@
     pages: "inboqa.cms.pages",
     theme: "inboqa.theme",
   };
+  const coinpayuUrl = "https://www.coinpayu.com/?r=mha737r";
+  const coinpayuBanners = [
+    { src: "https://www.coinpayu.com/static/advertiser_banner/728X90_es.gif", width: 728, height: 90, slotClass: "ad-wide affiliate-ad-horizontal affiliate-ad-leaderboard" },
+    { src: "https://www.coinpayu.com/static/advertiser_banner/468X60.gif", width: 468, height: 60, slotClass: "ad-wide affiliate-ad-horizontal affiliate-ad-strip" },
+    { src: "https://www.coinpayu.com/static/advertiser_banner/300X250_es.gif", width: 300, height: 250, slotClass: "ad-card affiliate-ad-square" },
+    { src: "https://www.coinpayu.com/static/advertiser_banner/160X600_es.gif", width: 160, height: 600, slotClass: "ad-card affiliate-ad-skyscraper" },
+  ];
+  const networkAdScript = "https://quarrelsomebitter.com/b/X_Vys.deGjlg0GYMWZcB/sekmG9nuHZdUSltkZPrTMcRweNxTrcJ0mMDj/E/tHNJzcAB1cN/zUQ/yaNlQn";
 
   function initSite() {
     hydrateTheme();
     renderHeader();
     renderPageAds();
     renderFooter();
+    renderNetworkAds();
     renderArticles();
     renderArticlePage();
     renderDynamicPage();
@@ -96,30 +105,38 @@
     if (!header || document.querySelector("[data-page-top-ad]")) return;
 
     header.insertAdjacentHTML("afterend", `
-      <section class="ad-banner page-ad affiliate-ad-horizontal affiliate-ad-stack" data-page-top-ad aria-label="مساحة اعلانية">
-        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-          <img src="https://www.coinpayu.com/static/advertiser_banner/728X90_es.gif" width="728" height="90" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-        </a>
-        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-          <img src="https://www.coinpayu.com/static/advertiser_banner/468X60.gif" width="468" height="60" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-        </a>
-        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-          <img src="https://www.coinpayu.com/static/advertiser_banner/320X100_ru.gif" width="320" height="100" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-        </a>
-        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-          <img src="https://www.coinpayu.com/static/advertiser_banner/300X250_es.gif" width="300" height="250" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-        </a>
-        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-          <img src="https://www.coinpayu.com/static/advertiser_banner/160X600.gif" width="160" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-        </a>
-        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-          <img src="https://www.coinpayu.com/static/advertiser_banner/160X600_es.gif" width="160" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-        </a>
-        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-          <img src="https://www.coinpayu.com/static/advertiser_banner/300X600.gif" width="300" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-        </a>
-      </section>
+      ${networkAdSlot("top", "page-ad")}
     `);
+  }
+
+  function renderNetworkAds() {
+    document.querySelectorAll("[data-network-ad-slot]").forEach((slot) => {
+      if (slot.dataset.networkLoaded === "true") return;
+      slot.dataset.networkLoaded = "true";
+      const script = document.createElement("script");
+      script.src = networkAdScript;
+      script.async = true;
+      script.referrerPolicy = "no-referrer-when-downgrade";
+      slot.appendChild(script);
+    });
+  }
+
+  function networkAdSlot(name, extraClass = "") {
+    return `
+      <section class="ad-banner network-ad-slot ${extraClass}" data-network-ad-slot="${name}" aria-label="مساحة اعلانية">
+        <span>مساحة إعلان</span>
+      </section>
+    `;
+  }
+
+  function coinpayuAd(banner) {
+    return `
+      <div class="ad-slot ${banner.slotClass}">
+        <a class="affiliate-ad-link" href="${coinpayuUrl}" target="_blank" rel="sponsored noopener">
+          <img src="${banner.src}" width="${banner.width}" height="${banner.height}" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+        </a>
+      </div>
+    `;
   }
 
   function renderFooter() {
@@ -128,50 +145,14 @@
     const navItems = getPages()
       .map((item) => `<a href="${item.href}">${escapeHtml(item.label)}</a>`)
       .join("");
+    const coinpayuAds = coinpayuBanners.map(coinpayuAd).join("");
 
     target.innerHTML = `
+      ${networkAdSlot("middle", "network-ad-mid")}
       <section class="ad-grid-block" aria-label="مساحات اعلانية قبل الفوتر">
-        <div class="ad-slot ad-wide affiliate-ad-horizontal affiliate-ad-leaderboard">
-          <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-            <img src="https://www.coinpayu.com/static/advertiser_banner/728X90_es.gif" width="728" height="90" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-          </a>
-        </div>
-        <div class="ad-slot ad-wide affiliate-ad-horizontal">
-          <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-            <img src="https://www.coinpayu.com/static/advertiser_banner/320X100_ru.gif" width="320" height="100" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-          </a>
-        </div>
-        <div class="ad-slot ad-card affiliate-ad-skyscraper">
-          <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-            <img src="https://www.coinpayu.com/static/advertiser_banner/160X600.gif" width="160" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-          </a>
-        </div>
-        <div class="ad-slot ad-card affiliate-ad-skyscraper">
-          <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-            <img src="https://www.coinpayu.com/static/advertiser_banner/160X600_es.gif" width="160" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-          </a>
-        </div>
-        <div class="ad-slot ad-card affiliate-ad-tall">
-          <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-            <img src="https://www.coinpayu.com/static/advertiser_banner/300X600.gif" width="300" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-          </a>
-        </div>
-        <div class="ad-slot ad-card affiliate-ad-square">
-          <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-            <img src="https://www.coinpayu.com/static/advertiser_banner/300X250_es.gif" width="300" height="250" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-          </a>
-        </div>
-        <div class="ad-slot ad-wide affiliate-ad-horizontal affiliate-ad-strip">
-          <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-            <img src="https://www.coinpayu.com/static/advertiser_banner/468X60.gif" width="468" height="60" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-          </a>
-        </div>
+        ${coinpayuAds}
       </section>
-      <section class="ad-banner footer-ad affiliate-ad-horizontal affiliate-ad-strip" aria-label="مساحة اعلانية سفلية">
-        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-          <img src="https://www.coinpayu.com/static/advertiser_banner/468X60.gif" width="468" height="60" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-        </a>
-      </section>
+      ${networkAdSlot("bottom", "footer-ad")}
       <footer class="site-footer">
         <nav class="footer-nav" aria-label="روابط الصفحات">${navItems}</nav>
         <div>
@@ -328,7 +309,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260518-ads2", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260518-ads3", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())

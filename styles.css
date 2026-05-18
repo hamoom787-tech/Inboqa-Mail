@@ -99,6 +99,10 @@ button:disabled {
   overflow-x: hidden;
 }
 
+.app-shell > .page:first-child {
+  grid-column: 1 / -1;
+}
+
 [data-site-header] {
   display: block;
   min-height: 90px;
@@ -493,6 +497,22 @@ h1 {
   border: 0;
   border-radius: 6px;
   object-fit: contain;
+}
+
+.network-ad-slot {
+  min-height: 110px;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.network-ad-slot > script {
+  display: none;
+}
+
+.network-ad-slot iframe,
+.network-ad-slot img,
+.network-ad-slot ins {
+  max-width: 100%;
 }
 
 .affiliate-ad-horizontal {
