@@ -121,9 +121,10 @@
             <img src="https://www.coinpayu.com/static/advertiser_banner/160X600.gif" width="160" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
           </a>
         </div>
-        <div class="ad-slot ad-card">
-          <span>مساحة اعلان</span>
-          <strong>300x250</strong>
+        <div class="ad-slot ad-card affiliate-ad-square">
+          <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+            <img src="https://www.coinpayu.com/static/advertiser_banner/300X250_es.gif" width="300" height="250" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+          </a>
         </div>
         <div class="ad-slot ad-wide">
           <span>مساحة اعلان Google AdSense</span>

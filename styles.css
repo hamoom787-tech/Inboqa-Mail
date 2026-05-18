@@ -506,6 +506,17 @@ h1 {
   max-height: 100px;
 }
 
+.affiliate-ad-square {
+  min-height: 280px;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.affiliate-ad-square .affiliate-ad-link img {
+  width: min(300px, 100%);
+  max-height: 250px;
+}
+
 .affiliate-ad-card {
   min-height: 320px;
 }
