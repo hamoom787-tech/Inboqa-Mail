@@ -506,6 +506,20 @@ h1 {
   max-height: 100px;
 }
 
+.affiliate-ad-leaderboard .affiliate-ad-link img {
+  width: min(728px, 100%);
+  max-height: 90px;
+}
+
+.affiliate-ad-strip {
+  min-height: 88px;
+}
+
+.affiliate-ad-strip .affiliate-ad-link img {
+  width: min(468px, 100%);
+  max-height: 60px;
+}
+
 .affiliate-ad-square {
   min-height: 280px;
   padding: 12px;
@@ -519,6 +533,17 @@ h1 {
 
 .affiliate-ad-card {
   min-height: 320px;
+}
+
+.affiliate-ad-tall {
+  min-height: 620px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.affiliate-ad-tall .affiliate-ad-link img {
+  width: min(300px, 100%);
+  max-height: 600px;
 }
 
 .ad-wide {

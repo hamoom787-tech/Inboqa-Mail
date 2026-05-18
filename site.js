@@ -116,9 +116,9 @@
             <img src="https://www.coinpayu.com/static/advertiser_banner/320X100_ru.gif" width="320" height="100" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
           </a>
         </div>
-        <div class="ad-slot ad-card affiliate-ad-card">
+        <div class="ad-slot ad-card affiliate-ad-tall">
           <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
-            <img src="https://www.coinpayu.com/static/advertiser_banner/160X600.gif" width="160" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+            <img src="https://www.coinpayu.com/static/advertiser_banner/300X600.gif" width="300" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
           </a>
         </div>
         <div class="ad-slot ad-card affiliate-ad-square">
@@ -126,14 +126,16 @@
             <img src="https://www.coinpayu.com/static/advertiser_banner/300X250_es.gif" width="300" height="250" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
           </a>
         </div>
-        <div class="ad-slot ad-wide">
-          <span>مساحة اعلان Google AdSense</span>
-          <strong>Multiplex / Responsive</strong>
+        <div class="ad-slot ad-wide affiliate-ad-horizontal affiliate-ad-strip">
+          <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+            <img src="https://www.coinpayu.com/static/advertiser_banner/468X60.gif" width="468" height="60" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+          </a>
         </div>
       </section>
-      <section class="ad-banner footer-ad" aria-label="مساحة اعلانية سفلية">
-        <span>مساحة اعلان Google AdSense</span>
-        <strong>Footer Responsive Ad</strong>
+      <section class="ad-banner footer-ad affiliate-ad-horizontal affiliate-ad-strip" aria-label="مساحة اعلانية سفلية">
+        <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+          <img src="https://www.coinpayu.com/static/advertiser_banner/468X60.gif" width="468" height="60" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+        </a>
       </section>
       <footer class="site-footer">
         <nav class="footer-nav" aria-label="روابط الصفحات">${navItems}</nav>
