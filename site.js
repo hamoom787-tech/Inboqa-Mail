@@ -115,9 +115,10 @@
           <span>مساحة اعلان Google AdSense</span>
           <strong>In-Article Responsive</strong>
         </div>
-        <div class="ad-slot ad-card">
-          <span>مساحة اعلان</span>
-          <strong>336x280</strong>
+        <div class="ad-slot ad-card affiliate-ad-card">
+          <a class="affiliate-ad-link" href="https://www.coinpayu.com/?r=mha737r" target="_blank" rel="sponsored noopener">
+            <img src="https://www.coinpayu.com/static/advertiser_banner/160X600.gif" width="160" height="600" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
+          </a>
         </div>
         <div class="ad-slot ad-card">
           <span>مساحة اعلان</span>
