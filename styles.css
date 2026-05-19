@@ -794,8 +794,8 @@ body[data-page="home"] .mail-card .danger-button {
 }
 
 .side-ad-rail {
-  position: fixed;
-  top: clamp(96px, 12vh, 140px);
+  position: absolute;
+  top: clamp(420px, 44vw, 640px);
   z-index: 8;
   display: grid;
   width: 144px;
@@ -815,7 +815,7 @@ body[data-page="home"] .mail-card .danger-button {
 }
 
 .side-ad-rail-left {
-  left: max(22px, calc((100vw - 1260px) / 2 - 178px));
+  display: none;
 }
 
 .side-ad-rail img {
@@ -864,13 +864,24 @@ body[data-page="home"] .mail-card .danger-button {
 }
 
 .extra-ad-pack .extra-network-ad {
-  min-height: 132px;
+  aspect-ratio: 1 / 1;
+  min-height: 0;
   margin: 0;
+  padding: 10px;
+  overflow: hidden;
 }
 
 .extra-network-card {
   align-content: center;
   min-width: 0;
+}
+
+.extra-network-card iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
 }
 
 .forms-ad-block {

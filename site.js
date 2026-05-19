@@ -13,7 +13,7 @@
   const contentCoinpayuBanners = coinpayuBanners.slice(0, 1);
   const sideCoinpayuBanners = [];
   const networkAdScripts = {
-    top: "https://quarrelsomebitter.com/b/X_Vys.deGjlg0GYMWZcB/sekmG9nuHZdUSltkZPrTMcRweNxTrcJ0mMDj/E/tHNJzcAB1cN/zUQ/yaNlQn",
+    top: "https://quarrelsomebitter.com/bsXuVns.dYGKlE0iYiWEcX/CeFmS9TuSZZUblKkNPXTkc/w/NETjkOywM_Dqk/tINpzfAm1nO/TWIFxnMlwO",
     middle: "https://quarrelsomebitter.com/bNXGV.sIdpGPlY0MYmWGcS/-efmJ9Ku/ZxU/l_k/PzTiccwONjT/c/0GNNTtcst/NdzjAk1/Nzz/Q/2_MHQg",
     bottom: "https://exalted-engineering.com/cuDc9l6lb.2p5GlXSdW/Qx9INNzCAb1iNCzRQj0MOtSW0p3xMeDTUE3AN_D/Uuzh",
     extraHeader: "https://exalted-engineering.com/c.D_9f6dbg2E5ZlASGWXQs9dNVzcAV1pN/zBUl0rNfSI0/3gMgDvUq3bNPTfQI5q",
@@ -22,7 +22,7 @@
     extraAfterFooter: "https://quarrelsomebitter.com/b.XmVZsNdoGKl/0cYTWGcM/Telm/9FuJZKU/lokTPAThcLwhNOThc/0qMdjMEBt/NrzPA/1AN-zgQhyyNNQy",
   };
   const extraNetworkSlots = [
-    { key: "extraHeader", label: "Ad 1" },
+    { key: "top", label: "Ad 1" },
     { key: "extraContent", label: "Ad 2" },
     { key: "extraBeforeFooter", label: "Ad 3" },
     { key: "extraAfterFooter", label: "Ad 4" },
@@ -166,6 +166,10 @@
       if (slot.dataset.networkLoaded === "true") return;
       const scriptSrc = networkAdScripts[networkAdKey(slot.dataset.networkAdSlot || "")];
       if (!scriptSrc) return;
+      if (slot.classList.contains("extra-network-ad")) {
+        renderNetworkTileAd(slot, scriptSrc);
+        return;
+      }
       slot.dataset.networkLoaded = "true";
       const script = document.createElement("script");
       script.src = scriptSrc;
@@ -173,6 +177,20 @@
       script.referrerPolicy = "no-referrer-when-downgrade";
       slot.appendChild(script);
     });
+  }
+
+  function renderNetworkTileAd(slot, scriptSrc) {
+    if (!slot || !scriptSrc || slot.dataset.networkLoaded === "true") return;
+
+    slot.dataset.networkLoaded = "true";
+    const frame = document.createElement("iframe");
+    frame.title = "Advertisement";
+    frame.loading = "lazy";
+    frame.referrerPolicy = "no-referrer-when-downgrade";
+    frame.sandbox = "allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin";
+    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:100%;min-height:250px;display:grid;place-items:center;background:transparent;overflow:hidden}img,iframe,ins{max-width:100%!important;max-height:100%!important}</style></head><body><script src="${scriptSrc}" async referrerpolicy="no-referrer-when-downgrade"><\/script></body></html>`;
+    slot.textContent = "";
+    slot.appendChild(frame);
   }
 
   function networkAdKey(slotName) {
@@ -204,8 +222,9 @@
     if (!sideAdBanners.length || document.querySelector("[data-side-ad-rails]")) return;
 
     const rails = sideAdBanners
-      .map((banner, index) => `
-        <aside class="side-ad-rail side-ad-rail-${index % 2 === 0 ? "left" : "right"} ${banner.className}" aria-label="Side advertisement">
+      .slice(0, 1)
+      .map((banner) => `
+        <aside class="side-ad-rail side-ad-rail-right ${banner.className}" aria-label="Side advertisement">
           <a class="affiliate-ad-link" href="${banner.href}" target="_blank" rel="nofollow sponsored noopener">
             <img src="${banner.src}" width="${banner.width}" height="${banner.height}" alt="${escapeHtml(banner.alt)}" loading="eager" decoding="async" />
           </a>
@@ -500,7 +519,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260519-side-rails1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260519-ad-rails3", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
