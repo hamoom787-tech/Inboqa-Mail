@@ -1206,6 +1206,17 @@ body[data-page="home"] .content-section {
   margin-inline: auto;
 }
 
+body[data-page="home"] [data-site-footer] {
+  width: min(1460px, calc(100% - 40px));
+  margin-inline: auto;
+}
+
+body[data-page="home"] [data-site-footer] > .ad-banner,
+body[data-page="home"] [data-site-footer] > .ad-grid-block,
+body[data-page="home"] [data-site-footer] > .site-footer {
+  width: 100%;
+}
+
 .section-head {
   max-width: 760px;
   margin-bottom: 20px;

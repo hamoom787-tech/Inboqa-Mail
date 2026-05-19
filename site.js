@@ -519,7 +519,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260519-section-width1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260519-footer-width1", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
