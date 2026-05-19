@@ -1,4 +1,4 @@
-# Inboqa Mail Temporary Email
+﻿# Inboqa Mail Temporary Email
 
 Inboqa Mail موقع بريد مؤقت عربي جاهز للنشر كنسخة static، مع صفحات محتوى وثقة، أماكن إعلانات، ولوحة تحكم محلية لإضافة صفحات ومقالات وسكشنز.
 

@@ -6,7 +6,7 @@ const STORAGE_KEY = "inboqa.currentMailbox";
 const POLL_MS = 12000;
 const DEFAULT_TTL_MS = 10 * 60 * 1000;
 const GENERATE_AD_DELAY_MS = 2600;
-const GENERATE_AD_SCRIPT = "https://quarrelsomebitter.com/bNXGV.sIdpGPlY0MYmWGcS/-efmJ9Ku/ZxU/l_k/PzTiccwONjT/c/0GNNTtcst/NdzjAk1/Nzz/Q/2_MHQg";
+const GENERATE_AD_SCRIPT = "https://quarrelsomebitter.com/b.XmVZsNdoGKl/0cYTWGcM/Telm/9FuJZKU/lokTPAThcLwhNOThc/0qMdjMEBt/NrzPA/1AN-zgQhyyNNQy";
 const GENERATE_AD_BANNER = "https://www.coinpayu.com/static/advertiser_banner/300X250_es.gif";
 const GENERATE_AD_LINK = "https://www.coinpayu.com/?r=mha737r";
 

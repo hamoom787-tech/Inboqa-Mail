@@ -670,6 +670,49 @@ h1 {
   margin-bottom: 0;
 }
 
+.extra-network-ad {
+  min-height: 118px;
+}
+
+.extra-ad-pack {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+  padding: 12px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 76%, transparent);
+}
+
+.extra-ad-pack .extra-network-ad {
+  min-height: 132px;
+  margin: 0;
+}
+
+.extra-network-card {
+  align-content: center;
+  min-width: 0;
+}
+
+.forms-ad-block {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  min-height: 320px;
+  overflow: hidden;
+}
+
+.forms-ad-block > div {
+  width: 100%;
+  min-height: 120px;
+}
+
+.forms-iframe-ad {
+  display: grid;
+  min-height: 300px;
+  place-items: center;
+}
+
 .ad-banner strong,
 .ad-slot strong {
   color: var(--text);
@@ -1321,6 +1364,12 @@ h1 {
   }
 }
 
+@media (max-width: 980px) {
+  .extra-ad-pack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (min-width: 1240px) {
   .app-shell {
     grid-template-columns: 170px minmax(0, 1fr);
@@ -1367,6 +1416,14 @@ h1 {
   }
 
   .action-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .extra-ad-pack {
+    grid-template-columns: 1fr;
+  }
+
+  .forms-ad-block {
     grid-template-columns: 1fr;
   }
 

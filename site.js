@@ -9,25 +9,45 @@
   const coinpayuUrl = "https://www.coinpayu.com/?r=mha737r";
   const coinpayuBanners = [
     { src: "https://www.coinpayu.com/static/advertiser_banner/728X90_es.gif", width: 728, height: 90, slotClass: "ad-wide affiliate-ad-horizontal affiliate-ad-leaderboard" },
-    { src: "https://www.coinpayu.com/static/advertiser_banner/468X60.gif", width: 468, height: 60, slotClass: "ad-wide affiliate-ad-horizontal affiliate-ad-strip" },
-    { src: "https://www.coinpayu.com/static/advertiser_banner/300X250_es.gif", width: 300, height: 250, slotClass: "ad-card affiliate-ad-square" },
-    { src: "https://www.coinpayu.com/static/advertiser_banner/160X600_es.gif", width: 160, height: 600, slotClass: "ad-card affiliate-ad-skyscraper" },
   ];
-  const contentCoinpayuBanners = coinpayuBanners.filter((banner) => !banner.slotClass.includes("skyscraper"));
-  const sideCoinpayuBanners = [
-    { src: "https://www.coinpayu.com/static/advertiser_banner/160X600.gif", width: 160, height: 600, label: "right" },
-    { src: "https://www.coinpayu.com/static/advertiser_banner/160X600_es.gif", width: 160, height: 600, label: "left" },
-  ];
+  const contentCoinpayuBanners = coinpayuBanners.slice(0, 1);
+  const sideCoinpayuBanners = [];
   const networkAdScripts = {
     top: "https://quarrelsomebitter.com/b/X_Vys.deGjlg0GYMWZcB/sekmG9nuHZdUSltkZPrTMcRweNxTrcJ0mMDj/E/tHNJzcAB1cN/zUQ/yaNlQn",
     middle: "https://quarrelsomebitter.com/bNXGV.sIdpGPlY0MYmWGcS/-efmJ9Ku/ZxU/l_k/PzTiccwONjT/c/0GNNTtcst/NdzjAk1/Nzz/Q/2_MHQg",
     bottom: "https://exalted-engineering.com/cuDc9l6lb.2p5GlXSdW/Qx9INNzCAb1iNCzRQj0MOtSW0p3xMeDTUE3AN_D/Uuzh",
+    extraHeader: "https://exalted-engineering.com/c.D_9f6dbg2E5ZlASGWXQs9dNVzcAV1pN/zBUl0rNfSI0/3gMgDvUq3bNPTfQI5q",
+    extraContent: "https://quarrelsomebitter.com/b_XRV/s.dWGvlR0HYoW/cW/aepmX9ku/ZGUHlwkpPDTjcKwbNDTDc/0ANcThcttCNmz/AI1ZNPz/Qn2bMEQc",
+    extraBeforeFooter: "https://exalted-engineering.com/cxD/9k6gb.2a5/lgSgWeQ/9YN/z/A/1mNkzbQN0yOlS-0v3VMGD_UG3WNUDRUCza",
+    extraAfterFooter: "https://quarrelsomebitter.com/b.XmVZsNdoGKl/0cYTWGcM/Telm/9FuJZKU/lokTPAThcLwhNOThc/0qMdjMEBt/NrzPA/1AN-zgQhyyNNQy",
+  };
+  const extraNetworkSlots = [
+    { key: "extraHeader", label: "Ad 1" },
+    { key: "extraContent", label: "Ad 2" },
+    { key: "extraBeforeFooter", label: "Ad 3" },
+    { key: "extraAfterFooter", label: "Ad 4" },
+  ];
+  const formsAdConfig = {
+    directScripts: [
+      "https://formssternlystately.com/4d/90/85/4d908588dc30e0ec27661466b3ef99ae.js",
+      "https://formssternlystately.com/f5/a9/5c/f5a95c78746e60c8c7e4051e3ade4d9a.js",
+    ],
+    invokeScript: "https://formssternlystately.com/907a1bbc6fb36a2958a8c43c27e64706/invoke.js",
+    containerId: "container-907a1bbc6fb36a2958a8c43c27e64706",
+    iframeAd: {
+      key: "30cef0b0a5aae90a6721c224a12acb81",
+      width: 160,
+      height: 300,
+      src: "https://formssternlystately.com/30cef0b0a5aae90a6721c224a12acb81/invoke.js",
+    },
   };
 
   function initSite() {
     hydrateTheme();
     renderHeader();
     renderSideRailAds();
+    renderExtraNetworkAds();
+    renderFormsAds();
     renderFooter();
     renderNetworkAds();
     renderArticles();
@@ -124,15 +144,16 @@
   }
 
   function networkAdKey(slotName) {
+    if (networkAdScripts[slotName]) return slotName;
     if (slotName.includes("bottom")) return "bottom";
     if (slotName.includes("middle")) return "middle";
     return "top";
   }
 
-  function networkAdSlot(name, extraClass = "") {
+  function networkAdSlot(name, extraClass = "", label = "Ad space") {
     return `
       <section class="ad-banner network-ad-slot ${extraClass}" data-network-ad-slot="${name}" aria-label="مساحة اعلانية">
-        <span>مساحة إعلان</span>
+        <span>${escapeHtml(label)}</span>
       </section>
     `;
   }
@@ -148,7 +169,7 @@
   }
 
   function renderSideRailAds() {
-    if (document.querySelector("[data-side-ad-rails]")) return;
+    if (!sideCoinpayuBanners.length || document.querySelector("[data-side-ad-rails]")) return;
 
     const rails = sideCoinpayuBanners
       .map((banner) => `
@@ -161,6 +182,80 @@
       .join("");
 
     document.body.insertAdjacentHTML("beforeend", `<div class="side-ad-rails" data-side-ad-rails>${rails}</div>`);
+  }
+
+  function renderExtraNetworkAds() {
+    const page = document.querySelector(".page") || document.querySelector(".admin-shell");
+    const header = document.querySelector("[data-site-header]");
+    if (!page || document.querySelector("[data-extra-network-ads]")) return;
+
+    const slots = extraNetworkSlots
+      .map((slot) => networkAdSlot(slot.key, `extra-network-ad extra-network-card ${slot.key}`, slot.label))
+      .join("");
+    const pack = `
+      <section class="extra-ad-pack" data-extra-network-ads aria-label="Extra ad scripts">
+        ${slots}
+      </section>
+    `;
+
+    if (header) header.insertAdjacentHTML("afterend", pack);
+    else page.insertAdjacentHTML("afterbegin", pack);
+  }
+
+  function renderFormsAds() {
+    const page = document.querySelector(".page") || document.querySelector(".admin-shell");
+    if (!page || document.querySelector("[data-forms-ad-block]")) return;
+
+    const anchor = document.querySelector("[data-extra-network-ads]") || document.querySelector("[data-site-footer]");
+    const block = `
+      <section class="ad-banner forms-ad-block" data-forms-ad-block aria-label="Forms ad">
+        <div id="${formsAdConfig.containerId}"></div>
+        <div class="forms-iframe-ad" data-forms-iframe-ad></div>
+      </section>
+    `;
+
+    if (anchor) anchor.insertAdjacentHTML("afterend", block);
+    else page.insertAdjacentHTML("afterbegin", block);
+
+    formsAdConfig.directScripts.forEach((src, index) => {
+      injectExternalScript(src, { id: `forms-direct-ad-script-${index + 1}` });
+    });
+    injectExternalScript(formsAdConfig.invokeScript, {
+      id: "forms-invoke-ad-script",
+      async: true,
+      cfasync: false,
+    });
+    injectAtOptionsAd(document.querySelector("[data-forms-iframe-ad]"));
+  }
+
+  function injectAtOptionsAd(target) {
+    if (!target || target.dataset.loaded === "true") return;
+
+    target.dataset.loaded = "true";
+    window.atOptions = {
+      key: formsAdConfig.iframeAd.key,
+      format: "iframe",
+      height: formsAdConfig.iframeAd.height,
+      width: formsAdConfig.iframeAd.width,
+      params: {},
+    };
+    injectExternalScript(formsAdConfig.iframeAd.src, {
+      id: "forms-iframe-ad-script",
+      parent: target,
+      async: false,
+    });
+  }
+
+  function injectExternalScript(src, options = {}) {
+    if (!src || (options.id && document.getElementById(options.id))) return;
+
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = options.async !== false;
+    script.referrerPolicy = "no-referrer-when-downgrade";
+    if (options.id) script.id = options.id;
+    if (options.cfasync === false) script.dataset.cfasync = "false";
+    (options.parent || document.body).appendChild(script);
   }
 
   function renderFooter() {
@@ -333,7 +428,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260519-topmove1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260519-extraads6", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
