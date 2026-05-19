@@ -28,6 +28,7 @@
     { key: "extraAfterFooter", label: "Ad 4" },
   ];
   const formsAdConfig = {
+    directLink: "https://formssternlystately.com/g4yxjb3e8?key=612502a40aaf85f2f0ade288af2bff4b",
     directScripts: [
       "https://formssternlystately.com/4d/90/85/4d908588dc30e0ec27661466b3ef99ae.js",
       "https://formssternlystately.com/f5/a9/5c/f5a95c78746e60c8c7e4051e3ade4d9a.js",
@@ -40,6 +41,20 @@
       height: 300,
       src: "https://formssternlystately.com/30cef0b0a5aae90a6721c224a12acb81/invoke.js",
     },
+    leaderboardAd: {
+      key: "7104ea404d24be46cca9e65e5da5aa48",
+      width: 728,
+      height: 90,
+      src: "https://formssternlystately.com/7104ea404d24be46cca9e65e5da5aa48/invoke.js",
+    },
+  };
+  const adsterraReferral = {
+    href: "https://beta.publishers.adsterra.com/referral/WMumX6UT3X",
+    banners: [
+      { src: "https://landings-cdn.adsterratech.com/referralBanners/gif/600x250_adsterra_reff.gif", width: 600, height: 250, className: "adsterra-wide" },
+      { src: "https://landings-cdn.adsterratech.com/referralBanners/gif/120x300_adsterra_reff.gif", width: 120, height: 300, className: "adsterra-tall" },
+      { src: "https://landings-cdn.adsterratech.com/referralBanners/gif/120x600_adsterra_reff.gif", width: 120, height: 600, className: "adsterra-skyscraper" },
+    ],
   };
 
   function initSite() {
@@ -48,6 +63,7 @@
     renderSideRailAds();
     renderExtraNetworkAds();
     renderFormsAds();
+    renderAdsterraAds();
     renderFooter();
     renderNetworkAds();
     renderArticles();
@@ -198,7 +214,9 @@
       </section>
     `;
 
-    if (header) header.insertAdjacentHTML("afterend", pack);
+    const homeHero = document.body.dataset.page === "home" ? document.querySelector(".hero-panel") : null;
+    if (homeHero) homeHero.insertAdjacentHTML("afterend", pack);
+    else if (header) header.insertAdjacentHTML("afterend", pack);
     else page.insertAdjacentHTML("afterbegin", pack);
   }
 
@@ -206,11 +224,20 @@
     const page = document.querySelector(".page") || document.querySelector(".admin-shell");
     if (!page || document.querySelector("[data-forms-ad-block]")) return;
 
-    const anchor = document.querySelector("[data-extra-network-ads]") || document.querySelector("[data-site-footer]");
+    const anchor = document.body.dataset.page === "home"
+      ? document.querySelector("#inbox")
+      : document.querySelector("[data-extra-network-ads]") || document.querySelector("[data-site-footer]");
     const block = `
       <section class="ad-banner forms-ad-block" data-forms-ad-block aria-label="Forms ad">
-        <div id="${formsAdConfig.containerId}"></div>
+        <div class="forms-container-ad" id="${formsAdConfig.containerId}"></div>
+        <div class="forms-leaderboard-ad" data-forms-leaderboard-ad></div>
+        <div class="forms-direct-link-ad">
+          <a href="${formsAdConfig.directLink}" target="_blank" rel="sponsored noopener">Ad link</a>
+        </div>
         <div class="forms-iframe-ad" data-forms-iframe-ad></div>
+        <div class="adsense-reserved-slot" aria-label="Google AdSense reserved slot">
+          <span>Google AdSense</span>
+        </div>
       </section>
     `;
 
@@ -226,24 +253,52 @@
       cfasync: false,
     });
     injectAtOptionsAd(document.querySelector("[data-forms-iframe-ad]"));
+    injectAtOptionsAd(document.querySelector("[data-forms-leaderboard-ad]"), formsAdConfig.leaderboardAd, "forms-leaderboard-ad-script");
   }
 
-  function injectAtOptionsAd(target) {
+  function renderAdsterraAds() {
+    const page = document.querySelector(".page") || document.querySelector(".admin-shell");
+    if (!page || document.querySelector("[data-adsterra-referral]")) return;
+
+    const banners = adsterraReferral.banners
+      .map((banner) => `
+        <a class="adsterra-card ${banner.className}" href="${adsterraReferral.href}" target="_blank" rel="nofollow sponsored noopener">
+          <img src="${banner.src}" width="${banner.width}" height="${banner.height}" alt="Adsterra banner" loading="lazy" decoding="async" />
+        </a>
+      `)
+      .join("");
+    const block = `
+      <section class="adsterra-referral-block" data-adsterra-referral aria-label="Adsterra referral ads">
+        ${banners}
+        <a class="adsterra-text-link" href="${adsterraReferral.href}" target="_blank" rel="nofollow sponsored noopener">Referral link</a>
+      </section>
+    `;
+    const anchor = document.querySelector("[data-forms-ad-block]") || document.querySelector("[data-site-footer]");
+
+    if (anchor) anchor.insertAdjacentHTML("afterend", block);
+    else page.insertAdjacentHTML("beforeend", block);
+  }
+
+  function injectAtOptionsAd(target, ad = formsAdConfig.iframeAd, scriptId = "forms-iframe-ad-script") {
     if (!target || target.dataset.loaded === "true") return;
 
     target.dataset.loaded = "true";
-    window.atOptions = {
-      key: formsAdConfig.iframeAd.key,
+    const frame = document.createElement("iframe");
+    frame.id = scriptId;
+    frame.title = "Advertisement";
+    frame.width = String(ad.width);
+    frame.height = String(ad.height);
+    frame.loading = "lazy";
+    frame.referrerPolicy = "no-referrer-when-downgrade";
+    frame.sandbox = "allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin";
+    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0;display:grid;place-items:center;min-height:${ad.height}px"><script>window.atOptions=${JSON.stringify({
+      key: ad.key,
       format: "iframe",
-      height: formsAdConfig.iframeAd.height,
-      width: formsAdConfig.iframeAd.width,
+      height: ad.height,
+      width: ad.width,
       params: {},
-    };
-    injectExternalScript(formsAdConfig.iframeAd.src, {
-      id: "forms-iframe-ad-script",
-      parent: target,
-      async: false,
-    });
+    })};<\/script><script src="${ad.src}"><\/script></body></html>`;
+    target.appendChild(frame);
   }
 
   function injectExternalScript(src, options = {}) {
@@ -428,7 +483,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260519-extraads6", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260519-tempmail-layout1", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())

@@ -60,11 +60,15 @@ function bindEvents() {
   els.generateEmail.addEventListener("click", () => showGenerationAdThenCreate());
   els.newEmailTop.addEventListener("click", () => createMailbox({ replace: true }));
   els.changeEmail.addEventListener("click", () => createMailbox({ replace: true }));
-  els.refreshInbox.addEventListener("click", () => refreshMessages(true));
-  els.refreshInboxSmall.addEventListener("click", () => refreshMessages(true));
+  els.refreshInbox.addEventListener("click", reloadPage);
+  els.refreshInboxSmall.addEventListener("click", reloadPage);
   els.copyEmail.addEventListener("click", copyCurrentEmail);
   els.deleteEmail.addEventListener("click", deleteCurrentMailbox);
   els.deleteMessage.addEventListener("click", deleteSelectedMessage);
+}
+
+function reloadPage() {
+  window.location.reload();
 }
 
 function showGenerationAdThenCreate() {
@@ -354,15 +358,21 @@ async function deleteCurrentMailbox() {
   }
 
   setBusy(true);
+  let shouldReload = false;
   try {
     await deleteMailboxRemote();
     clearMailboxLocal();
+    shouldReload = true;
     showToast("تم حذف البريد الحالي");
   } catch (error) {
     clearMailboxLocal();
+    shouldReload = true;
     showToast(error.message || "تم حذف الجلسة محليا");
   } finally {
     setBusy(false);
+    if (shouldReload) {
+      window.setTimeout(reloadPage, 250);
+    }
   }
 }
 
