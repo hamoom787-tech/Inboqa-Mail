@@ -56,6 +56,22 @@
       { src: "https://landings-cdn.adsterratech.com/referralBanners/gif/120x600_adsterra_reff.gif", width: 120, height: 600, className: "adsterra-skyscraper" },
     ],
   };
+  const sideAdBanners = [
+    ...sideCoinpayuBanners.map((banner) => ({
+      ...banner,
+      href: coinpayuUrl,
+      alt: "Join Coinpayu to earn!",
+      className: "side-ad-coinpayu",
+    })),
+    ...adsterraReferral.banners
+      .filter((banner) => Number(banner.height) > Number(banner.width))
+      .map((banner) => ({
+        ...banner,
+        href: adsterraReferral.href,
+        alt: "Adsterra banner",
+        className: `side-ad-adsterra ${banner.className}`,
+      })),
+  ];
 
   function initSite() {
     hydrateTheme();
@@ -185,13 +201,13 @@
   }
 
   function renderSideRailAds() {
-    if (!sideCoinpayuBanners.length || document.querySelector("[data-side-ad-rails]")) return;
+    if (!sideAdBanners.length || document.querySelector("[data-side-ad-rails]")) return;
 
-    const rails = sideCoinpayuBanners
-      .map((banner) => `
-        <aside class="side-ad-rail side-ad-rail-${banner.label}" aria-label="Side advertisement">
-          <a class="affiliate-ad-link" href="${coinpayuUrl}" target="_blank" rel="sponsored noopener">
-            <img src="${banner.src}" width="${banner.width}" height="${banner.height}" alt="Join Coinpayu to earn!" loading="eager" decoding="async" />
+    const rails = sideAdBanners
+      .map((banner, index) => `
+        <aside class="side-ad-rail side-ad-rail-${index % 2 === 0 ? "left" : "right"} ${banner.className}" aria-label="Side advertisement">
+          <a class="affiliate-ad-link" href="${banner.href}" target="_blank" rel="nofollow sponsored noopener">
+            <img src="${banner.src}" width="${banner.width}" height="${banner.height}" alt="${escapeHtml(banner.alt)}" loading="eager" decoding="async" />
           </a>
         </aside>
       `)
@@ -261,6 +277,7 @@
     if (!page || document.querySelector("[data-adsterra-referral]")) return;
 
     const banners = adsterraReferral.banners
+      .filter((banner) => Number(banner.width) >= Number(banner.height))
       .map((banner) => `
         <a class="adsterra-card ${banner.className}" href="${adsterraReferral.href}" target="_blank" rel="nofollow sponsored noopener">
           <img src="${banner.src}" width="${banner.width}" height="${banner.height}" alt="Adsterra banner" loading="lazy" decoding="async" />
@@ -483,7 +500,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260519-tempmail-layout1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260519-side-rails1", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())

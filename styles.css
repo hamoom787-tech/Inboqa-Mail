@@ -795,13 +795,14 @@ body[data-page="home"] .mail-card .danger-button {
 
 .side-ad-rail {
   position: fixed;
-  top: 112px;
+  top: clamp(96px, 12vh, 140px);
   z-index: 8;
   display: grid;
-  width: 170px;
-  min-height: 620px;
+  width: 144px;
+  max-height: calc(100vh - 150px);
   place-items: center;
-  padding: 10px 5px;
+  padding: 8px;
+  overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: color-mix(in srgb, var(--surface) 94%, transparent);
@@ -810,19 +811,26 @@ body[data-page="home"] .mail-card .danger-button {
 }
 
 .side-ad-rail-right {
-  right: max(16px, calc((100vw - 1460px) / 2 - 194px));
+  right: max(22px, calc((100vw - 1260px) / 2 - 178px));
 }
 
 .side-ad-rail-left {
-  left: max(16px, calc((100vw - 1460px) / 2 - 194px));
+  left: max(22px, calc((100vw - 1260px) / 2 - 178px));
 }
 
 .side-ad-rail img {
-  width: 160px;
-  height: 600px;
+  width: auto;
+  height: auto;
   max-width: 100%;
+  max-height: calc(100vh - 170px);
   border-radius: 6px;
   object-fit: contain;
+}
+
+.side-ad-rail .affiliate-ad-link {
+  display: grid;
+  width: 100%;
+  place-items: center;
 }
 
 .ad-wide {
@@ -1661,9 +1669,9 @@ body[data-page="home"] .mail-card .danger-button {
   }
 }
 
-@media (min-width: 1280px) and (min-height: 760px) {
+@media (min-width: 1500px) and (min-height: 720px) {
   body {
-    padding-inline: 188px;
+    padding-inline: 168px;
   }
 
   body[data-page="home"] {
