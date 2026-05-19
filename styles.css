@@ -1201,6 +1201,11 @@ body[data-page="home"] .mail-card .danger-button {
   padding: clamp(20px, 4vw, 38px);
 }
 
+body[data-page="home"] .content-section {
+  width: min(1460px, calc(100% - 40px));
+  margin-inline: auto;
+}
+
 .section-head {
   max-width: 760px;
   margin-bottom: 20px;
