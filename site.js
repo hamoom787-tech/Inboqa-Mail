@@ -6,36 +6,13 @@
     pages: "inboqa.cms.pages",
     theme: "inboqa.theme",
   };
-  const networkAdScripts = {
-    top: "https://quarrelsomebitter.com/bsXuVns.dYGKlE0iYiWEcX/CeFmS9TuSZZUblKkNPXTkc/w/NETjkOywM_Dqk/tINpzfAm1nO/TWIFxnMlwO",
-  };
+  const networkAdScripts = {};
   const extraNetworkSlots = [
     { key: "top", label: "Ad 1" },
     { key: "adsenseReserveOne", label: "Google AdSense" },
     { key: "adsenseReserveTwo", label: "Google AdSense" },
     { key: "adsenseReserveThree", label: "Google AdSense" },
   ];
-  const formsAdConfig = {
-    directLink: "https://formssternlystately.com/g4yxjb3e8?key=612502a40aaf85f2f0ade288af2bff4b",
-    directScripts: [
-      "https://formssternlystately.com/4d/90/85/4d908588dc30e0ec27661466b3ef99ae.js",
-      "https://formssternlystately.com/f5/a9/5c/f5a95c78746e60c8c7e4051e3ade4d9a.js",
-    ],
-    invokeScript: "https://formssternlystately.com/907a1bbc6fb36a2958a8c43c27e64706/invoke.js",
-    containerId: "container-907a1bbc6fb36a2958a8c43c27e64706",
-    iframeAd: {
-      key: "30cef0b0a5aae90a6721c224a12acb81",
-      width: 160,
-      height: 300,
-      src: "https://formssternlystately.com/30cef0b0a5aae90a6721c224a12acb81/invoke.js",
-    },
-    leaderboardAd: {
-      key: "7104ea404d24be46cca9e65e5da5aa48",
-      width: 728,
-      height: 90,
-      src: "https://formssternlystately.com/7104ea404d24be46cca9e65e5da5aa48/invoke.js",
-    },
-  };
   const adsterraReferral = {
     href: "https://beta.publishers.adsterra.com/referral/WMumX6UT3X",
     banners: [
@@ -64,9 +41,6 @@
     renderAdsterraAds();
     renderFooter();
     renderNetworkAds();
-    injectLayerAdScript("head");
-    injectLayerAdScript("content");
-    injectLayerAdScript("footer");
     renderArticles();
     renderArticlePage();
     renderDynamicPage();
@@ -239,12 +213,9 @@
       : document.querySelector("[data-extra-network-ads]") || document.querySelector("[data-site-footer]");
     const block = `
       <section class="ad-banner forms-ad-block" data-forms-ad-block aria-label="Forms ad">
-        <div class="forms-container-ad" id="${formsAdConfig.containerId}"></div>
-        <div class="forms-leaderboard-ad" data-forms-leaderboard-ad></div>
-        <div class="forms-direct-link-ad">
-          <a href="${formsAdConfig.directLink}" target="_blank" rel="sponsored noopener">Ad link</a>
+        <div class="adsense-reserved-slot" aria-label="Google AdSense reserved slot">
+          <span>Google AdSense</span>
         </div>
-        <div class="forms-iframe-ad" data-forms-iframe-ad></div>
         <div class="adsense-reserved-slot" aria-label="Google AdSense reserved slot">
           <span>Google AdSense</span>
         </div>
@@ -253,17 +224,6 @@
 
     if (anchor) anchor.insertAdjacentHTML("afterend", block);
     else page.insertAdjacentHTML("afterbegin", block);
-
-    formsAdConfig.directScripts.forEach((src, index) => {
-      injectExternalScript(src, { id: `forms-direct-ad-script-${index + 1}` });
-    });
-    injectExternalScript(formsAdConfig.invokeScript, {
-      id: "forms-invoke-ad-script",
-      async: true,
-      cfasync: false,
-    });
-    injectAtOptionsAd(document.querySelector("[data-forms-iframe-ad]"));
-    injectAtOptionsAd(document.querySelector("[data-forms-leaderboard-ad]"), formsAdConfig.leaderboardAd, "forms-leaderboard-ad-script");
   }
 
   function renderAdsterraAds() {
@@ -288,101 +248,6 @@
 
     if (anchor) anchor.insertAdjacentHTML("afterend", block);
     else page.insertAdjacentHTML("beforeend", block);
-  }
-
-  function injectAtOptionsAd(target, ad = formsAdConfig.iframeAd, scriptId = "forms-iframe-ad-script") {
-    if (!target || target.dataset.loaded === "true") return;
-
-    target.dataset.loaded = "true";
-    const frame = document.createElement("iframe");
-    frame.id = scriptId;
-    frame.title = "Advertisement";
-    frame.width = String(ad.width);
-    frame.height = String(ad.height);
-    frame.loading = "lazy";
-    frame.referrerPolicy = "no-referrer-when-downgrade";
-    frame.sandbox = "allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin";
-    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0;display:grid;place-items:center;min-height:${ad.height}px"><script>window.atOptions=${JSON.stringify({
-      key: ad.key,
-      format: "iframe",
-      height: ad.height,
-      width: ad.width,
-      params: {},
-    })};<\/script><script src="${ad.src}"><\/script></body></html>`;
-    target.appendChild(frame);
-  }
-
-  function injectExternalScript(src, options = {}) {
-    if (!src || (options.id && document.getElementById(options.id))) return;
-
-    const script = document.createElement("script");
-    script.src = src;
-    script.async = options.async !== false;
-    script.referrerPolicy = "no-referrer-when-downgrade";
-    if (options.id) script.id = options.id;
-    if (options.cfasync === false) script.dataset.cfasync = "false";
-    (options.parent || document.body).appendChild(script);
-  }
-
-  function injectLayerAdScript(placement = "head") {
-    const token = "dc986e70da2464996aca44c11a527625";
-    const scriptId = `network-layer-ad-script-${placement}`;
-    if (document.getElementById(scriptId)) return;
-
-    const settings = [
-      ["siteId", 60 - 949 * 284 - 701 + 562 + 5571326],
-      ["minBid", 0],
-      ["popundersPerIP", "0"],
-      ["delayBetween", 0],
-      ["default", false],
-      ["defaultPerDay", 0],
-      ["topmostLayer", "auto"],
-    ];
-    const sources = [
-      "https://www.antiadblocksystems.com/upnpjs.es5.umd.min.css",
-      "https://d3cod80thn7qnd.cloudfront.net/iBtnp/iangular-chart.min.js",
-    ];
-    let index = -1;
-    let timeoutId;
-
-    if (!window[token]) {
-      try {
-        Object.freeze(window[token] = settings);
-      } catch {
-        window[token] = settings;
-      }
-    }
-
-    const loadNext = () => {
-      clearTimeout(timeoutId);
-      index += 1;
-      if (!sources[index] || (Date.now() > 1805196495000 && index > 1)) return;
-
-      const script = document.createElement("script");
-      script.id = index === 0 ? scriptId : undefined;
-      script.type = "text/javascript";
-      script.async = true;
-      script.dataset.cfasync = "false";
-      script.dataset.networkLayerAd = placement;
-      script.src = sources[index];
-      script.crossOrigin = "anonymous";
-      script.referrerPolicy = "no-referrer-when-downgrade";
-      script.onerror = loadNext;
-      script.onload = () => {
-        clearTimeout(timeoutId);
-        if (!window[token.slice(0, 16) + token.slice(0, 16)]) loadNext();
-      };
-      timeoutId = window.setTimeout(loadNext, 5000);
-      layerAdParent(placement).appendChild(script);
-    };
-
-    loadNext();
-  }
-
-  function layerAdParent(placement) {
-    if (placement === "content") return document.querySelector(".page") || document.body;
-    if (placement === "footer") return document.querySelector("[data-site-footer]") || document.body;
-    return document.head;
   }
 
   function renderFooter() {
@@ -556,7 +421,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260520-layerad2", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260520-cleanads2", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())

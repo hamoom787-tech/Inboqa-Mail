@@ -6,9 +6,6 @@ const STORAGE_KEY = "inboqa.currentMailbox";
 const POLL_MS = 12000;
 const DEFAULT_TTL_MS = 10 * 60 * 1000;
 const GENERATE_AD_DELAY_MS = 2600;
-const GENERATE_AD_SCRIPT = "https://quarrelsomebitter.com/b.XmVZsNdoGKl/0cYTWGcM/Telm/9FuJZKU/lokTPAThcLwhNOThc/0qMdjMEBt/NrzPA/1AN-zgQhyyNNQy";
-const GENERATE_AD_BANNER = "https://www.coinpayu.com/static/advertiser_banner/300X250_es.gif";
-const GENERATE_AD_LINK = "https://www.coinpayu.com/?r=mha737r";
 
 const state = {
   mailbox: null,
@@ -88,9 +85,9 @@ function showGenerationAdThenCreate() {
       <p class="eyebrow">اعلان سريع</p>
       <h2>يتم تجهيز بريدك المؤقت الآن</h2>
       <div class="generate-ad-slot" data-generate-ad-slot>
-        <a class="affiliate-ad-link" href="${GENERATE_AD_LINK}" target="_blank" rel="sponsored noopener">
-          <img src="${GENERATE_AD_BANNER}" width="300" height="250" alt="Join Coinpayu to earn!" loading="eager" decoding="async" />
-        </a>
+        <div class="adsense-reserved-slot" aria-label="Google AdSense reserved slot">
+          <span>Google AdSense</span>
+        </div>
       </div>
       <button class="primary-button generate-ad-skip" type="button">
         <i data-lucide="sparkles"></i>
@@ -102,13 +99,6 @@ function showGenerationAdThenCreate() {
   document.body.appendChild(modal);
   document.body.classList.add("has-modal");
   refreshIcons();
-
-  const adSlot = modal.querySelector("[data-generate-ad-slot]");
-  const script = document.createElement("script");
-  script.src = GENERATE_AD_SCRIPT;
-  script.async = true;
-  script.referrerPolicy = "no-referrer-when-downgrade";
-  adSlot.appendChild(script);
 
   let done = false;
   const proceed = () => {
