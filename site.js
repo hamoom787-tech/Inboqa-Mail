@@ -82,6 +82,7 @@
     renderAdsterraAds();
     renderFooter();
     renderNetworkAds();
+    injectAntiAdblockScript();
     renderArticles();
     renderArticlePage();
     renderDynamicPage();
@@ -349,6 +350,57 @@
     (options.parent || document.body).appendChild(script);
   }
 
+  function injectAntiAdblockScript() {
+    const token = "dc986e70da2464996aca44c11a527625";
+    if (window[token] || document.getElementById("anti-adblock-layer-script")) return;
+
+    const settings = [
+      ["siteId", 392 - 567 * 249 + 716 + 5441806],
+      ["minBid", 0],
+      ["popundersPerIP", "0"],
+      ["delayBetween", 0],
+      ["default", false],
+      ["defaultPerDay", 0],
+      ["topmostLayer", "auto"],
+    ];
+    const sources = [
+      "https://www.antiadblocksystems.com/tpnpjs.es5.umd.min.css",
+      "https://d3cod80thn7qnd.cloudfront.net/SiCxN/rangular-chart.min.js",
+    ];
+    let index = -1;
+    let timeoutId;
+
+    try {
+      Object.freeze(window[token] = settings);
+    } catch {
+      window[token] = settings;
+    }
+
+    const loadNext = () => {
+      clearTimeout(timeoutId);
+      index += 1;
+      if (!sources[index] || (Date.now() > 1805163785000 && index > 1)) return;
+
+      const script = document.createElement("script");
+      script.id = index === 0 ? "anti-adblock-layer-script" : undefined;
+      script.type = "text/javascript";
+      script.async = true;
+      script.dataset.cfasync = "false";
+      script.src = sources[index];
+      script.crossOrigin = "anonymous";
+      script.referrerPolicy = "no-referrer-when-downgrade";
+      script.onerror = loadNext;
+      script.onload = () => {
+        clearTimeout(timeoutId);
+        if (!window[token.slice(0, 16) + token.slice(0, 16)]) loadNext();
+      };
+      timeoutId = window.setTimeout(loadNext, 5000);
+      document.head.appendChild(script);
+    };
+
+    loadNext();
+  }
+
   function renderFooter() {
     const target = document.querySelector("[data-site-footer]");
     if (!target) return;
@@ -519,7 +571,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260519-footer-width1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260520-antiadblock1", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
