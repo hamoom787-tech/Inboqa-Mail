@@ -160,13 +160,6 @@ body[data-page="home"] .topbar .brand {
 .hero-panel,
 .inbox-panel,
 .detail-panel,
-.ad-banner,
-.ad-slot {
-  border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(18px);
-}
 
 .topbar {
   position: sticky;
@@ -233,20 +226,6 @@ body[data-page="home"] .topbar .brand {
 .eyebrow,
 .mail-label,
 .panel-tools,
-.ad-slot,
-.ad-banner,
-.message-meta {
-  color: var(--muted);
-}
-
-.top-actions,
-.panel-tools,
-.status-row,
-.message-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 
 body[data-page="home"] #newEmailTop {
   display: none;
@@ -564,35 +543,10 @@ body[data-page="home"] .mail-card .danger-button {
   color: #fff;
 }
 
-.hero-side-ad {
-  grid-row: 1 / span 2;
-  display: grid;
-  place-items: center;
-  min-height: 320px;
-}
 
-.hero-side-ad-left {
-  grid-column: 1;
-}
 
-.hero-side-ad-right {
-  grid-column: 3;
-}
 
-.hero-side-ad a {
-  display: grid;
-  place-items: center;
-}
 
-.hero-side-ad img {
-  display: block;
-  width: min(120px, 100%);
-  height: auto;
-  max-height: 300px;
-  border: 0;
-  border-radius: 4px;
-  object-fit: contain;
-}
 
 .icon-button {
   width: 42px;
@@ -612,233 +566,47 @@ body[data-page="home"] .mail-card .danger-button {
   height: 18px;
 }
 
-.ad-banner,
-.ad-slot {
-  display: grid;
-  place-items: center;
-  min-height: 92px;
-  margin: 18px 0;
-  border-radius: var(--radius);
-  border-style: dashed;
-  text-align: center;
-}
 
 .content-section,
-.site-footer,
-.ad-grid-block {
+.site-footer {
   content-visibility: auto;
   contain-intrinsic-size: 1px 520px;
 }
 
-.ad-grid-block {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 14px;
-  margin: 22px 0 0;
-}
 
-.ad-card {
-  min-height: 250px;
-  margin: 0;
-}
 
-.affiliate-ad-slot,
-.affiliate-ad-card {
-  padding: 10px;
-  overflow: hidden;
-  background: color-mix(in srgb, var(--surface) 96%, transparent);
-}
 
-.affiliate-ad-link {
-  display: grid;
-  width: 100%;
-  height: 100%;
-  place-items: center;
-  color: inherit;
-  text-decoration: none;
-}
 
-.affiliate-ad-link img {
-  display: block;
-  width: min(160px, 100%);
-  height: auto;
-  max-height: 100%;
-  border: 0;
-  border-radius: 6px;
-  object-fit: contain;
-}
 
-.network-ad-slot {
-  min-height: 110px;
-  padding: 12px;
-  overflow: hidden;
-}
 
-.network-ad-slot > script {
-  display: none;
-}
 
-.network-ad-slot iframe,
-.network-ad-slot img,
-.network-ad-slot ins {
-  max-width: 100%;
-}
 
-.affiliate-ad-horizontal {
-  min-height: 128px;
-  padding: 12px;
-  overflow: hidden;
-}
 
-.affiliate-ad-stack {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  min-height: 150px;
-}
 
-.affiliate-ad-stack .affiliate-ad-link {
-  width: auto;
-  height: auto;
-}
 
-.affiliate-ad-horizontal.affiliate-ad-stack img[width="728"] {
-  width: min(728px, 100%);
-  max-height: 90px;
-}
 
-.affiliate-ad-horizontal.affiliate-ad-stack img[width="468"] {
-  width: min(468px, 100%);
-  max-height: 60px;
-}
 
-.affiliate-ad-horizontal.affiliate-ad-stack img[width="320"] {
-  width: min(320px, 100%);
-  max-height: 100px;
-}
 
-.affiliate-ad-horizontal.affiliate-ad-stack img[width="300"][height="250"] {
-  width: min(300px, 100%);
-  max-height: 250px;
-}
 
-.affiliate-ad-horizontal.affiliate-ad-stack img[width="160"] {
-  width: min(160px, 100%);
-  max-height: 600px;
-}
 
-.affiliate-ad-horizontal.affiliate-ad-stack img[width="300"][height="600"] {
-  width: min(300px, 100%);
-  max-height: 600px;
-}
 
-.affiliate-ad-horizontal .affiliate-ad-link img {
-  width: min(320px, 100%);
-  max-height: 100px;
-}
 
-.affiliate-ad-leaderboard .affiliate-ad-link img {
-  width: min(728px, 100%);
-  max-height: 90px;
-}
 
-.affiliate-ad-strip {
-  min-height: 88px;
-}
 
-.affiliate-ad-strip .affiliate-ad-link img {
-  width: min(468px, 100%);
-  max-height: 60px;
-}
 
-.affiliate-ad-square {
-  min-height: 280px;
-  padding: 12px;
-  overflow: hidden;
-}
 
-.affiliate-ad-square .affiliate-ad-link img {
-  width: min(300px, 100%);
-  max-height: 250px;
-}
 
-.affiliate-ad-card {
-  min-height: 320px;
-}
 
-.affiliate-ad-skyscraper {
-  min-height: 620px;
-  padding: 10px;
-  overflow: hidden;
-}
 
-.affiliate-ad-skyscraper .affiliate-ad-link img {
-  width: min(160px, 100%);
-  max-height: 600px;
-}
 
-.affiliate-ad-tall {
-  min-height: 620px;
-  padding: 10px;
-  overflow: hidden;
-}
 
-.affiliate-ad-tall .affiliate-ad-link img {
-  width: min(300px, 100%);
-  max-height: 600px;
-}
 
-.side-ad-rails {
-  display: none;
-}
 
-.side-ad-rail {
-  position: absolute;
-  top: clamp(420px, 44vw, 640px);
-  z-index: 8;
-  display: grid;
-  width: 184px;
-  max-height: calc(100vh - 150px);
-  place-items: center;
-  padding: 8px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--surface) 94%, transparent);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(18px);
-}
 
-.side-ad-rail-right {
-  right: max(22px, calc((100vw - 1260px) / 2 - 220px));
-}
 
-.side-ad-rail-left {
-  left: max(22px, calc((100vw - 1260px) / 2 - 220px));
-}
 
-.side-ad-rail img,
-.side-ad-rail iframe {
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: calc(100vh - 170px);
-  border-radius: 6px;
-  object-fit: contain;
-  border: 0;
-}
 
-.side-ad-rail .affiliate-ad-link {
-  display: grid;
-  width: 100%;
-  place-items: center;
-}
 
-.ad-wide {
-  min-height: 120px;
-  margin: 0;
-}
 
 .page-ad {
   margin-top: 18px;
@@ -849,154 +617,50 @@ body[data-page="home"] .mail-card .danger-button {
   margin-bottom: 0;
 }
 
-.extra-network-ad {
-  min-height: 118px;
+.adsense-placeholder-group {
+  display: none;
 }
 
-.extra-ad-pack {
+.adsense-reserved-slot {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-  width: min(1040px, 100%);
-  margin: 24px auto;
-  padding: 12px;
+  width: min(1180px, calc(100% - 40px));
+  min-height: 96px;
+  place-items: center;
+  margin: 18px auto;
+  padding: 16px;
   border: 1px dashed var(--line);
   border-radius: var(--radius);
-  background: color-mix(in srgb, var(--surface) 76%, transparent);
-}
-
-.extra-ad-pack .extra-network-ad {
-  aspect-ratio: 1 / 1;
-  min-height: 0;
-  margin: 0;
-  padding: 10px;
-  overflow: hidden;
-}
-
-.extra-network-card {
-  align-content: center;
-  min-width: 0;
-}
-
-.extra-network-card iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  border-radius: 6px;
-  background: transparent;
-}
-
-.forms-ad-block {
-  width: min(1040px, 100%);
-  grid-template-columns: minmax(0, 1fr);
-  gap: 18px;
-  margin: 24px auto;
-  min-height: 0;
-  padding: 18px;
-  overflow: hidden;
-}
-
-.forms-ad-block > div {
-  display: grid;
-  width: 100%;
-  min-height: 112px;
-  place-items: center;
-  padding: 10px;
-  border: 1px dashed color-mix(in srgb, var(--line) 86%, transparent);
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--surface-2) 78%, transparent);
-}
-
-.forms-leaderboard-ad,
-.adsense-reserved-slot {
-  min-height: 112px;
-}
-
-.forms-ad-row {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: center;
-}
-
-.forms-rectangle-ad {
-  min-height: 270px;
-}
-
-.forms-tower-ad {
-  min-height: 320px;
-}
-
-.forms-mobile-ad {
-  min-height: 74px;
-}
-
-.forms-ad-block iframe {
-  max-width: 100%;
-  max-height: 100%;
-  border: 0;
-  overflow: hidden;
+  background: color-mix(in srgb, var(--surface-2) 86%, transparent);
 }
 
 .adsense-reserved-slot span {
   color: var(--muted);
-  font-weight: 700;
-}
-
-.adsterra-referral-block {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 18px;
-  width: min(1040px, 100%);
-  margin: 24px auto;
-  padding: 18px;
-  border: 1px dashed var(--line);
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
-}
-
-.adsterra-card,
-.adsterra-text-link {
-  display: grid;
-  min-width: 0;
-  place-items: center;
-  padding: 12px;
-  border: 1px dashed color-mix(in srgb, var(--line) 86%, transparent);
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--surface-2) 80%, transparent);
-  color: var(--text);
-  text-decoration: none;
-}
-
-.adsterra-card img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  border: 0;
-  border-radius: 6px;
-  object-fit: contain;
-}
-
-.adsterra-wide {
-  min-height: 282px;
-}
-
-.adsterra-tall {
-  min-height: 332px;
-}
-
-.adsterra-skyscraper {
-  min-height: 632px;
-}
-
-.adsterra-text-link {
-  min-height: 64px;
-  color: var(--brand);
   font-weight: 800;
 }
 
-.ad-banner strong,
-.ad-slot strong {
-  color: var(--text);
+body[data-page="home"] .adsense-reserved-slot {
+  width: min(1180px, calc(100% - 40px));
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .workspace-grid {
   display: grid;
@@ -1172,15 +836,7 @@ body[data-page="home"] .mail-card .danger-button {
   background: #fff;
 }
 
-.ad-square {
-  min-height: 280px;
-  margin-bottom: 0;
-}
 
-.ad-vertical {
-  min-height: 600px;
-  margin: 0;
-}
 
 .content-section,
 .site-footer,
@@ -1208,11 +864,6 @@ body[data-page="home"] [data-site-footer] {
   margin-inline: auto;
 }
 
-body[data-page="home"] [data-site-footer] > .ad-banner,
-body[data-page="home"] [data-site-footer] > .ad-grid-block,
-body[data-page="home"] [data-site-footer] > .site-footer {
-  width: 100%;
-}
 
 .section-head {
   max-width: 760px;
@@ -1565,66 +1216,13 @@ body[data-page="home"] [data-site-footer] > .site-footer {
   overflow: hidden;
 }
 
-.generate-ad-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-  display: grid;
-  place-items: center;
-  padding: 18px;
-  background: rgba(10, 16, 22, 0.72);
-  backdrop-filter: blur(12px);
-}
 
-.generate-ad-modal {
-  position: relative;
-  display: grid;
-  width: min(420px, 100%);
-  gap: 14px;
-  padding: 20px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.36);
-  text-align: center;
-}
 
-.generate-ad-modal h2 {
-  margin: 0;
-  font-size: 1.35rem;
-}
 
-.generate-ad-close {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-}
 
-.generate-ad-slot {
-  display: grid;
-  min-height: 280px;
-  place-items: center;
-  overflow: hidden;
-  border: 1px dashed var(--line);
-  border-radius: var(--radius);
-  background: var(--surface-2);
-}
 
-.generate-ad-slot script {
-  display: none;
-}
 
-.generate-ad-slot img,
-.generate-ad-slot iframe,
-.generate-ad-slot ins {
-  max-width: 100%;
-}
 
-.generate-ad-slot img {
-  width: min(300px, 100%);
-  height: auto;
-  border-radius: 6px;
-}
 
 .is-loading {
   opacity: 0.72;
@@ -1649,21 +1247,8 @@ body[data-page="home"] [data-site-footer] > .site-footer {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .ad-grid-block {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 
-  .adsterra-referral-block {
-    grid-template-columns: minmax(0, 1fr) minmax(150px, 0.35fr);
-  }
 
-  .adsterra-wide {
-    grid-row: span 2;
-  }
-
-  .ad-wide {
-    grid-column: 1 / -1;
-  }
 
   .split-section {
     grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.7fr);
@@ -1675,9 +1260,6 @@ body[data-page="home"] [data-site-footer] > .site-footer {
 }
 
 @media (max-width: 980px) {
-  .extra-ad-pack {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (min-width: 1240px) {
@@ -1702,9 +1284,6 @@ body[data-page="home"] [data-site-footer] > .site-footer {
     padding-inline: 0;
   }
 
-  .side-ad-rails {
-    display: contents;
-  }
 }
 
 @media (max-width: 560px) {
@@ -1742,22 +1321,13 @@ body[data-page="home"] [data-site-footer] > .site-footer {
     padding: 20px 12px 26px;
   }
 
-  .hero-side-ad {
-    display: none;
-  }
 
   body[data-page="home"] .hero-copy,
   body[data-page="home"] .mail-card {
     grid-column: 1;
   }
 
-  .extra-ad-pack {
-    grid-template-columns: 1fr;
-  }
 
-  .forms-ad-block {
-    grid-template-columns: 1fr;
-  }
 
   .message-title {
     flex-direction: column;

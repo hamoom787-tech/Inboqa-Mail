@@ -5,7 +5,6 @@ const PROVIDERS = [
 const STORAGE_KEY = "inboqa.currentMailbox";
 const POLL_MS = 12000;
 const DEFAULT_TTL_MS = 10 * 60 * 1000;
-const GENERATE_AD_DELAY_MS = 2600;
 
 const state = {
   mailbox: null,
@@ -14,7 +13,6 @@ const state = {
   poller: null,
   timer: null,
   busy: false,
-  generationAdOpen: false,
 };
 
 const els = {
@@ -54,7 +52,7 @@ function init() {
 }
 
 function bindEvents() {
-  els.generateEmail.addEventListener("click", () => showGenerationAdThenCreate());
+  els.generateEmail.addEventListener("click", () => createMailbox());
   els.newEmailTop.addEventListener("click", () => createMailbox({ replace: true }));
   els.changeEmail.addEventListener("click", () => createMailbox({ replace: true }));
   els.refreshInbox.addEventListener("click", reloadPage);
@@ -66,54 +64,6 @@ function bindEvents() {
 
 function reloadPage() {
   window.location.reload();
-}
-
-function showGenerationAdThenCreate() {
-  if (state.busy || state.generationAdOpen) return;
-  state.generationAdOpen = true;
-
-  const modal = document.createElement("div");
-  modal.className = "generate-ad-backdrop";
-  modal.setAttribute("role", "dialog");
-  modal.setAttribute("aria-modal", "true");
-  modal.setAttribute("aria-label", "اعلان قبل توليد البريد");
-  modal.innerHTML = `
-    <div class="generate-ad-modal">
-      <button class="icon-button generate-ad-close" type="button" aria-label="توليد البريد الآن">
-        <i data-lucide="x"></i>
-      </button>
-      <p class="eyebrow">اعلان سريع</p>
-      <h2>يتم تجهيز بريدك المؤقت الآن</h2>
-      <div class="generate-ad-slot" data-generate-ad-slot>
-        <div class="adsense-reserved-slot" aria-label="Google AdSense reserved slot">
-          <span>Google AdSense</span>
-        </div>
-      </div>
-      <button class="primary-button generate-ad-skip" type="button">
-        <i data-lucide="sparkles"></i>
-        توليد البريد الآن
-      </button>
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-  document.body.classList.add("has-modal");
-  refreshIcons();
-
-  let done = false;
-  const proceed = () => {
-    if (done) return;
-    done = true;
-    window.clearTimeout(timerId);
-    modal.remove();
-    document.body.classList.remove("has-modal");
-    state.generationAdOpen = false;
-    createMailbox();
-  };
-
-  const timerId = window.setTimeout(proceed, GENERATE_AD_DELAY_MS);
-  modal.querySelector(".generate-ad-close").addEventListener("click", proceed);
-  modal.querySelector(".generate-ad-skip").addEventListener("click", proceed);
 }
 
 function hydrateTheme() {

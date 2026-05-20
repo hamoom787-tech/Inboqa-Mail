@@ -2,7 +2,7 @@
 
 ## Current Static-Site Limits
 
-Inboqa Mail currently runs as a static frontend. This is suitable for the public website, content pages, AdSense review, and a simple local admin demo.
+Inboqa Mail currently runs as a static frontend. This is suitable for the public website, content pages, and a simple local admin demo.
 
 The current admin page stores content in browser `localStorage`, so it should not be treated as a production CMS or a secure source of truth.
 

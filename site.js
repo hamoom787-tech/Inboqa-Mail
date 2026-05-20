@@ -6,58 +6,11 @@
     pages: "inboqa.cms.pages",
     theme: "inboqa.theme",
   };
-  const networkAdScripts = {};
-  const formsAds = {
-    atOptions: {
-      side: { key: "59d8d807865365b80d8eabb341b162e6", width: 160, height: 600 },
-      tower: { key: "30cef0b0a5aae90a6721c224a12acb81", width: 160, height: 300 },
-      leaderboard: { key: "7104ea404d24be46cca9e65e5da5aa48", width: 728, height: 90 },
-      mobile: { key: "28f6e2b7e26bade9b501a11e9490e6bd", width: 320, height: 50 },
-      rectangle: { key: "bffa5a755604580ed4113254d64cc583", width: 300, height: 250 },
-    },
-  };
-  Object.values(formsAds.atOptions).forEach((ad) => {
-    ad.src = `https://formssternlystately.com/${ad.key}/invoke.js`;
-  });
-  const blockedAdHosts = new Set([
-    "zub-tube.com",
-    "www.zub-tube.com",
-    "popads.net",
-    "www.popads.net",
-    "antiadblocksystems.com",
-    "www.antiadblocksystems.com",
-    "d3cod80thn7qnd.cloudfront.net",
-    "clickaine.com",
-    "www.clickaine.com",
-  ]);
-  const adsterraReferral = {
-    href: "https://beta.publishers.adsterra.com/referral/WMumX6UT3X",
-    banners: [
-      { src: "https://landings-cdn.adsterratech.com/referralBanners/gif/600x250_adsterra_reff.gif", width: 600, height: 250, className: "adsterra-wide" },
-      { src: "https://landings-cdn.adsterratech.com/referralBanners/gif/120x300_adsterra_reff.gif", width: 120, height: 300, className: "adsterra-tall" },
-      { src: "https://landings-cdn.adsterratech.com/referralBanners/gif/120x600_adsterra_reff.gif", width: 120, height: 600, className: "adsterra-skyscraper" },
-    ],
-  };
-  const sideAdBanners = [
-    ...adsterraReferral.banners
-      .filter((banner) => Number(banner.height) > Number(banner.width))
-      .map((banner) => ({
-        ...banner,
-        href: adsterraReferral.href,
-        alt: "Adsterra banner",
-        className: `side-ad-adsterra ${banner.className}`,
-      })),
-  ];
-
   function initSite() {
     hydrateTheme();
-    installBlockedAdGuard();
     renderHeader();
-    renderSideRailAds();
-    renderFormsAds();
-    renderAdsterraAds();
+    renderAdsensePlaceholders();
     renderFooter();
-    renderNetworkAds();
     renderArticles();
     renderArticlePage();
     renderDynamicPage();
@@ -137,173 +90,43 @@
     `;
   }
 
-  function renderNetworkAds() {
-    document.querySelectorAll("[data-network-ad-slot]").forEach((slot) => {
-      if (slot.dataset.networkLoaded === "true") return;
-      const scriptSrc = networkAdScripts[networkAdKey(slot.dataset.networkAdSlot || "")];
-      if (!scriptSrc) return;
-      if (slot.classList.contains("extra-network-ad")) {
-        renderNetworkTileAd(slot, scriptSrc);
-        return;
-      }
-      slot.dataset.networkLoaded = "true";
-      const script = document.createElement("script");
-      script.src = scriptSrc;
-      script.async = true;
-      script.referrerPolicy = "no-referrer-when-downgrade";
-      slot.appendChild(script);
-    });
-  }
-
-  function installBlockedAdGuard() {
-    if (window.__inboqaBlockedAdGuard) return;
-    window.__inboqaBlockedAdGuard = true;
-
-    const nativeOpen = window.open;
-    window.open = function guardedOpen(url, target, features) {
-      if (isBlockedAdUrl(url)) return null;
-      return nativeOpen.call(window, url, target, features);
-    };
-
-    document.addEventListener("click", (event) => {
-      const link = event.target.closest?.("a[href]");
-      if (!link || !isBlockedAdUrl(link.href)) return;
-      event.preventDefault();
-      event.stopPropagation();
-    }, true);
-
-    document.addEventListener("submit", (event) => {
-      const form = event.target;
-      if (!form || !isBlockedAdUrl(form.action)) return;
-      event.preventDefault();
-      event.stopPropagation();
-    }, true);
-  }
-
-  function isBlockedAdUrl(value) {
-    if (!value) return false;
-    try {
-      return blockedAdHosts.has(new URL(value, location.href).hostname.toLowerCase());
-    } catch {
-      const text = String(value).toLowerCase();
-      return [...blockedAdHosts].some((host) => text.includes(host));
-    }
-  }
-
-  function renderNetworkTileAd(slot, scriptSrc) {
-    if (!slot || !scriptSrc || slot.dataset.networkLoaded === "true") return;
-
-    slot.dataset.networkLoaded = "true";
-    const frame = document.createElement("iframe");
-    frame.title = "Advertisement";
-    frame.loading = "lazy";
-    frame.referrerPolicy = "no-referrer-when-downgrade";
-    frame.sandbox = "allow-scripts";
-    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:100%;min-height:250px;display:grid;place-items:center;background:transparent;overflow:hidden}img,iframe,ins{max-width:100%!important;max-height:100%!important}</style></head><body><script src="${scriptSrc}" async referrerpolicy="no-referrer-when-downgrade"><\/script></body></html>`;
-    slot.textContent = "";
-    slot.appendChild(frame);
-  }
-
-  function networkAdKey(slotName) {
-    if (networkAdScripts[slotName]) return slotName;
-    if (slotName.includes("bottom") && networkAdScripts.bottom) return "bottom";
-    if (slotName.includes("middle") && networkAdScripts.middle) return "middle";
-    return "";
-  }
-
-  function networkAdSlot(name, extraClass = "", label = "Ad space") {
+  function adSensePlaceholder(name, extraClass = "") {
     return `
-      <section class="ad-banner network-ad-slot ${extraClass}" data-network-ad-slot="${name}" aria-label="مساحة اعلانية">
-        <span>${escapeHtml(label)}</span>
+      <section class="adsense-reserved-slot ${extraClass}" data-adsense-placeholder="${escapeHtml(name)}" aria-label="Google AdSense ad space">
+        <span>Google AdSense</span>
       </section>
     `;
   }
 
-  function renderSideRailAds() {
-    if (document.querySelector("[data-side-ad-rails]")) return;
-
-    const rails = ["left", "right"].map((side) => `
-      <aside class="side-ad-rail side-ad-rail-${side} side-ad-network" data-side-atoptions-ad="${side}" aria-label="Side advertisement"></aside>
-    `).join("");
-
-    document.body.insertAdjacentHTML("beforeend", `<div class="side-ad-rails" data-side-ad-rails>${rails}</div>`);
-    document.querySelectorAll("[data-side-atoptions-ad]").forEach((slot, index) => {
-      renderAtOptionsFrame(slot, formsAds.atOptions.side, `side-atoptions-ad-${index + 1}`);
-    });
-  }
-
-  function renderAtOptionsFrame(target, ad, frameId) {
-    if (!target || target.dataset.loaded === "true") return;
-
-    target.dataset.loaded = "true";
-    const frame = document.createElement("iframe");
-    frame.id = frameId;
-    frame.title = "Advertisement";
-    frame.width = String(ad.width);
-    frame.height = String(ad.height);
-    frame.loading = "lazy";
-    frame.referrerPolicy = "no-referrer-when-downgrade";
-    frame.sandbox = "allow-scripts";
-    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:${ad.width}px;min-height:${ad.height}px;overflow:hidden;background:transparent}</style></head><body><script>window.atOptions=${JSON.stringify({
-      key: ad.key,
-      format: "iframe",
-      height: ad.height,
-      width: ad.width,
-      params: {},
-    })};<\/script><script src="${ad.src}"><\/script></body></html>`;
-    target.appendChild(frame);
-  }
-
-  function renderFormsAds() {
+  function renderAdsensePlaceholders() {
     const page = document.querySelector(".page") || document.querySelector(".admin-shell");
-    if (!page || document.querySelector("[data-forms-ad-block]")) return;
+    if (!page || document.querySelector("[data-adsense-placeholders]")) return;
 
-    const anchor = document.body.dataset.page === "home"
+    const topAnchor = document.body.dataset.page === "home"
+      ? document.querySelector(".hero-panel")
+      : document.querySelector("[data-site-header]");
+    const middleAnchor = document.body.dataset.page === "home"
       ? document.querySelector("#inbox")
-      : document.querySelector("[data-extra-network-ads]") || document.querySelector("[data-site-footer]");
-    const block = `
-      <section class="ad-banner forms-ad-block" data-forms-ad-block aria-label="Forms ad">
-        <div class="forms-leaderboard-ad" data-forms-leaderboard-ad></div>
-        <div class="forms-ad-row">
-          <div class="forms-rectangle-ad" data-forms-rectangle-ad></div>
-          <div class="forms-tower-ad" data-forms-tower-ad></div>
-        </div>
-        <div class="forms-mobile-ad" data-forms-mobile-ad></div>
-        <div class="adsense-reserved-slot" aria-label="Google AdSense reserved slot"><span>Google AdSense</span></div>
-      </section>
-    `;
+      : document.querySelector(".content-section");
+    const footerAnchor = document.querySelector("[data-site-footer]");
 
-    if (anchor) anchor.insertAdjacentHTML("afterend", block);
-    else page.insertAdjacentHTML("afterbegin", block);
+    const group = document.createElement("div");
+    group.className = "adsense-placeholder-group";
+    group.dataset.adsensePlaceholders = "true";
 
-    renderAtOptionsFrame(document.querySelector("[data-forms-leaderboard-ad]"), formsAds.atOptions.leaderboard, "forms-leaderboard-ad-frame");
-    renderAtOptionsFrame(document.querySelector("[data-forms-rectangle-ad]"), formsAds.atOptions.rectangle, "forms-rectangle-ad-frame");
-    renderAtOptionsFrame(document.querySelector("[data-forms-tower-ad]"), formsAds.atOptions.tower, "forms-tower-ad-frame");
-    renderAtOptionsFrame(document.querySelector("[data-forms-mobile-ad]"), formsAds.atOptions.mobile, "forms-mobile-ad-frame");
-  }
+    const topSlot = adSensePlaceholder("top", "page-ad adsense-wide");
+    const middleSlot = adSensePlaceholder("middle", "adsense-wide");
+    const bottomSlot = adSensePlaceholder("bottom", "footer-ad adsense-wide");
 
-  function renderAdsterraAds() {
-    const page = document.querySelector(".page") || document.querySelector(".admin-shell");
-    if (!page || document.querySelector("[data-adsterra-referral]")) return;
+    if (topAnchor) topAnchor.insertAdjacentHTML("afterend", topSlot);
+    else page.insertAdjacentHTML("afterbegin", topSlot);
 
-    const banners = adsterraReferral.banners
-      .filter((banner) => Number(banner.width) >= Number(banner.height))
-      .map((banner) => `
-        <a class="adsterra-card ${banner.className}" href="${adsterraReferral.href}" target="_blank" rel="nofollow sponsored noopener">
-          <img src="${banner.src}" width="${banner.width}" height="${banner.height}" alt="Adsterra banner" loading="lazy" decoding="async" />
-        </a>
-      `)
-      .join("");
-    const block = `
-      <section class="adsterra-referral-block" data-adsterra-referral aria-label="Adsterra referral ads">
-        ${banners}
-        <a class="adsterra-text-link" href="${adsterraReferral.href}" target="_blank" rel="nofollow sponsored noopener">Referral link</a>
-      </section>
-    `;
-    const anchor = document.querySelector("[data-forms-ad-block]") || document.querySelector("[data-site-footer]");
+    if (middleAnchor) middleAnchor.insertAdjacentHTML("afterend", middleSlot);
 
-    if (anchor) anchor.insertAdjacentHTML("afterend", block);
-    else page.insertAdjacentHTML("beforeend", block);
+    if (footerAnchor) footerAnchor.insertAdjacentHTML("beforebegin", bottomSlot);
+    else page.insertAdjacentHTML("beforeend", bottomSlot);
+
+    page.appendChild(group);
   }
 
   function renderFooter() {
@@ -314,13 +137,6 @@
       .join("");
 
     target.innerHTML = `
-      ${networkAdSlot("footerReservedTop", "network-ad-mid", "Google AdSense")}
-      <section class="ad-grid-block" aria-label="مساحات اعلانية قبل الفوتر">
-        <div class="adsense-reserved-slot" aria-label="Google AdSense reserved slot">
-          <span>Google AdSense</span>
-        </div>
-      </section>
-      ${networkAdSlot("footerReservedBottom", "footer-ad", "Google AdSense")}
       <footer class="site-footer">
         <nav class="footer-nav" aria-label="روابط الصفحات">${navItems}</nav>
         <div>
@@ -477,7 +293,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260520-noadult1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260520-adsenseonly2", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
