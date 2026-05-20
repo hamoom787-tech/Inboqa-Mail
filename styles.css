@@ -160,6 +160,12 @@ body[data-page="home"] .topbar .brand {
 .hero-panel,
 .inbox-panel,
 .detail-panel,
+.adsense-reserved-slot {
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
 
 .topbar {
   position: sticky;
@@ -226,6 +232,9 @@ body[data-page="home"] .topbar .brand {
 .eyebrow,
 .mail-label,
 .panel-tools,
+.message-meta {
+  color: var(--muted);
+}
 
 body[data-page="home"] #newEmailTop {
   display: none;

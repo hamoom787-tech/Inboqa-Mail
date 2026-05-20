@@ -1,4 +1,4 @@
-const CACHE_NAME = "inboqa-mail-v38";
+const CACHE_NAME = "inboqa-mail-v39";
 const APP_SHELL = [
   ".",
   "index.html",
@@ -8,11 +8,11 @@ const APP_SHELL = [
   "faq",
   "privacy",
   "terms",
-  "styles.css?v=20260520-adsenseonly2",
-  "site.js?v=20260520-adsenseonly2",
+  "styles.css?v=20260520-layoutfix1",
+  "site.js?v=20260520-layoutfix1",
   "site-data.js",
   "seo-articles.js",
-  "app.js?v=20260520-adsenseonly2",
+  "app.js?v=20260520-layoutfix1",
   "contact.js",
   "site.webmanifest",
   "assets/inboqa-icon-192.png",
