@@ -798,7 +798,7 @@ body[data-page="home"] .mail-card .danger-button {
   top: clamp(420px, 44vw, 640px);
   z-index: 8;
   display: grid;
-  width: 144px;
+  width: 184px;
   max-height: calc(100vh - 150px);
   place-items: center;
   padding: 8px;
@@ -811,20 +811,22 @@ body[data-page="home"] .mail-card .danger-button {
 }
 
 .side-ad-rail-right {
-  right: max(22px, calc((100vw - 1260px) / 2 - 178px));
+  right: max(22px, calc((100vw - 1260px) / 2 - 220px));
 }
 
 .side-ad-rail-left {
-  display: none;
+  left: max(22px, calc((100vw - 1260px) / 2 - 220px));
 }
 
-.side-ad-rail img {
+.side-ad-rail img,
+.side-ad-rail iframe {
   width: auto;
   height: auto;
   max-width: 100%;
   max-height: calc(100vh - 170px);
   border-radius: 6px;
   object-fit: contain;
+  border: 0;
 }
 
 .side-ad-rail .affiliate-ad-link {

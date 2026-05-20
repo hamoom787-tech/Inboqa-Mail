@@ -13,6 +13,12 @@
     { key: "adsenseReserveTwo", label: "Google AdSense" },
     { key: "adsenseReserveThree", label: "Google AdSense" },
   ];
+  const sideAtOptionsAd = {
+    key: "59d8d807865365b80d8eabb341b162e6",
+    width: 160,
+    height: 600,
+    src: "https://formssternlystately.com/59d8d807865365b80d8eabb341b162e6/invoke.js",
+  };
   const adsterraReferral = {
     href: "https://beta.publishers.adsterra.com/referral/WMumX6UT3X",
     banners: [
@@ -168,20 +174,38 @@
   }
 
   function renderSideRailAds() {
-    if (!sideAdBanners.length || document.querySelector("[data-side-ad-rails]")) return;
+    if (document.querySelector("[data-side-ad-rails]")) return;
 
-    const rails = sideAdBanners
-      .slice(0, 1)
-      .map((banner) => `
-        <aside class="side-ad-rail side-ad-rail-right ${banner.className}" aria-label="Side advertisement">
-          <a class="affiliate-ad-link" href="${banner.href}" target="_blank" rel="nofollow sponsored noopener">
-            <img src="${banner.src}" width="${banner.width}" height="${banner.height}" alt="${escapeHtml(banner.alt)}" loading="eager" decoding="async" />
-          </a>
-        </aside>
-      `)
-      .join("");
+    const rails = ["left", "right"].map((side) => `
+      <aside class="side-ad-rail side-ad-rail-${side} side-ad-network" data-side-atoptions-ad="${side}" aria-label="Side advertisement"></aside>
+    `).join("");
 
     document.body.insertAdjacentHTML("beforeend", `<div class="side-ad-rails" data-side-ad-rails>${rails}</div>`);
+    document.querySelectorAll("[data-side-atoptions-ad]").forEach((slot, index) => {
+      renderAtOptionsFrame(slot, sideAtOptionsAd, `side-atoptions-ad-${index + 1}`);
+    });
+  }
+
+  function renderAtOptionsFrame(target, ad, frameId) {
+    if (!target || target.dataset.loaded === "true") return;
+
+    target.dataset.loaded = "true";
+    const frame = document.createElement("iframe");
+    frame.id = frameId;
+    frame.title = "Advertisement";
+    frame.width = String(ad.width);
+    frame.height = String(ad.height);
+    frame.loading = "lazy";
+    frame.referrerPolicy = "no-referrer-when-downgrade";
+    frame.sandbox = "allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin";
+    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:${ad.width}px;min-height:${ad.height}px;overflow:hidden;background:transparent}</style></head><body><script>window.atOptions=${JSON.stringify({
+      key: ad.key,
+      format: "iframe",
+      height: ad.height,
+      width: ad.width,
+      params: {},
+    })};<\/script><script src="${ad.src}"><\/script></body></html>`;
+    target.appendChild(frame);
   }
 
   function renderExtraNetworkAds() {
@@ -421,7 +445,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260520-cleanads2", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260520-sidead1", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
