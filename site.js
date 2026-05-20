@@ -43,6 +43,10 @@
     type: "layer",
     label: `Ad ${index + 1}`,
   }));
+  const blockedAdHosts = new Set([
+    "zub-tube.com",
+    "www.zub-tube.com",
+  ]);
   const adsterraReferral = {
     href: "https://beta.publishers.adsterra.com/referral/WMumX6UT3X",
     banners: [
@@ -64,6 +68,7 @@
 
   function initSite() {
     hydrateTheme();
+    installBlockedAdGuard();
     renderHeader();
     renderSideRailAds();
     renderExtraNetworkAds();
@@ -169,6 +174,40 @@
     });
   }
 
+  function installBlockedAdGuard() {
+    if (window.__inboqaBlockedAdGuard) return;
+    window.__inboqaBlockedAdGuard = true;
+
+    const nativeOpen = window.open;
+    window.open = function guardedOpen(url, target, features) {
+      if (isBlockedAdUrl(url)) return null;
+      return nativeOpen.call(window, url, target, features);
+    };
+
+    document.addEventListener("click", (event) => {
+      const link = event.target.closest?.("a[href]");
+      if (!link || !isBlockedAdUrl(link.href)) return;
+      event.preventDefault();
+      event.stopPropagation();
+    }, true);
+
+    document.addEventListener("submit", (event) => {
+      const form = event.target;
+      if (!form || !isBlockedAdUrl(form.action)) return;
+      event.preventDefault();
+      event.stopPropagation();
+    }, true);
+  }
+
+  function isBlockedAdUrl(value) {
+    if (!value) return false;
+    try {
+      return blockedAdHosts.has(new URL(value, location.href).hostname.toLowerCase());
+    } catch {
+      return String(value).toLowerCase().includes("zub-tube.com");
+    }
+  }
+
   function renderNetworkTileAd(slot, scriptSrc) {
     if (!slot || !scriptSrc || slot.dataset.networkLoaded === "true") return;
 
@@ -177,7 +216,7 @@
     frame.title = "Advertisement";
     frame.loading = "lazy";
     frame.referrerPolicy = "no-referrer-when-downgrade";
-    frame.sandbox = "allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin";
+    frame.sandbox = "allow-scripts";
     frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:100%;min-height:250px;display:grid;place-items:center;background:transparent;overflow:hidden}img,iframe,ins{max-width:100%!important;max-height:100%!important}</style></head><body><script src="${scriptSrc}" async referrerpolicy="no-referrer-when-downgrade"><\/script></body></html>`;
     slot.textContent = "";
     slot.appendChild(frame);
@@ -222,7 +261,7 @@
     frame.height = String(ad.height);
     frame.loading = "lazy";
     frame.referrerPolicy = "no-referrer-when-downgrade";
-    frame.sandbox = "allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin";
+    frame.sandbox = "allow-scripts";
     frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:${ad.width}px;min-height:${ad.height}px;overflow:hidden;background:transparent}</style></head><body><script>window.atOptions=${JSON.stringify({
       key: ad.key,
       format: "iframe",
@@ -242,7 +281,7 @@
     frame.title = "Advertisement";
     frame.loading = "lazy";
     frame.referrerPolicy = "no-referrer-when-downgrade";
-    frame.sandbox = "allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin";
+    frame.sandbox = "allow-scripts";
     frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:100%;min-height:250px;display:grid;place-items:center;background:transparent;overflow:hidden}img,iframe,ins{max-width:100%!important;max-height:100%!important}</style></head><body><script type="text/javascript" data-cfasync="false">(function(){var e=window,k="dc986e70da2464996aca44c11a527625",g=[["siteId",${formsAds.layer.siteId}],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],n=${JSON.stringify(formsAds.layer.sources)},v=-1,o,x,l=function(){clearTimeout(x);v++;if(n[v]&&!(Date.now()>${formsAds.layer.expiresAt}&&1<v)){o=e.document.createElement("script");o.type="text/javascript";o.async=true;var s=e.document.getElementsByTagName("script")[0];o.src=n[v];o.crossOrigin="anonymous";o.onerror=l;o.onload=function(){clearTimeout(x);e[k.slice(0,16)+k.slice(0,16)]||l()};x=setTimeout(l,5000);s.parentNode.insertBefore(o,s)}};if(!e[k]){try{Object.freeze(e[k]=g)}catch(e){}l()}})();<\/script></body></html>`;
     target.textContent = "";
     target.appendChild(frame);
@@ -321,7 +360,7 @@
     frame.title = "Advertisement";
     frame.loading = "lazy";
     frame.referrerPolicy = "no-referrer-when-downgrade";
-    frame.sandbox = "allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin";
+    frame.sandbox = "allow-scripts";
     frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:100%;min-height:260px;display:grid;place-items:center;background:transparent;overflow:hidden}</style></head><body><div id="${formsAds.invoke.containerId}"></div><script async data-cfasync="false" src="${formsAds.invoke.src}"><\/script></body></html>`;
     target.appendChild(frame);
   }
@@ -533,7 +572,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260520-adlayout1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260520-blockzub1", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
