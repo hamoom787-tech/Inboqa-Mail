@@ -6,26 +6,14 @@
     pages: "inboqa.cms.pages",
     theme: "inboqa.theme",
   };
-  const coinpayuUrl = "https://www.coinpayu.com/?r=mha737r";
-  const coinpayuBanners = [
-    { src: "https://www.coinpayu.com/static/advertiser_banner/728X90_es.gif", width: 728, height: 90, slotClass: "ad-wide affiliate-ad-horizontal affiliate-ad-leaderboard" },
-  ];
-  const contentCoinpayuBanners = coinpayuBanners.slice(0, 1);
-  const sideCoinpayuBanners = [];
   const networkAdScripts = {
     top: "https://quarrelsomebitter.com/bsXuVns.dYGKlE0iYiWEcX/CeFmS9TuSZZUblKkNPXTkc/w/NETjkOywM_Dqk/tINpzfAm1nO/TWIFxnMlwO",
-    middle: "https://quarrelsomebitter.com/bNXGV.sIdpGPlY0MYmWGcS/-efmJ9Ku/ZxU/l_k/PzTiccwONjT/c/0GNNTtcst/NdzjAk1/Nzz/Q/2_MHQg",
-    bottom: "https://exalted-engineering.com/cuDc9l6lb.2p5GlXSdW/Qx9INNzCAb1iNCzRQj0MOtSW0p3xMeDTUE3AN_D/Uuzh",
-    extraHeader: "https://exalted-engineering.com/c.D_9f6dbg2E5ZlASGWXQs9dNVzcAV1pN/zBUl0rNfSI0/3gMgDvUq3bNPTfQI5q",
-    extraContent: "https://quarrelsomebitter.com/b_XRV/s.dWGvlR0HYoW/cW/aepmX9ku/ZGUHlwkpPDTjcKwbNDTDc/0ANcThcttCNmz/AI1ZNPz/Qn2bMEQc",
-    extraBeforeFooter: "https://exalted-engineering.com/cxD/9k6gb.2a5/lgSgWeQ/9YN/z/A/1mNkzbQN0yOlS-0v3VMGD_UG3WNUDRUCza",
-    extraAfterFooter: "https://quarrelsomebitter.com/b.XmVZsNdoGKl/0cYTWGcM/Telm/9FuJZKU/lokTPAThcLwhNOThc/0qMdjMEBt/NrzPA/1AN-zgQhyyNNQy",
   };
   const extraNetworkSlots = [
     { key: "top", label: "Ad 1" },
-    { key: "extraContent", label: "Ad 2" },
-    { key: "extraBeforeFooter", label: "Ad 3" },
-    { key: "extraAfterFooter", label: "Ad 4" },
+    { key: "adsenseReserveOne", label: "Google AdSense" },
+    { key: "adsenseReserveTwo", label: "Google AdSense" },
+    { key: "adsenseReserveThree", label: "Google AdSense" },
   ];
   const formsAdConfig = {
     directLink: "https://formssternlystately.com/g4yxjb3e8?key=612502a40aaf85f2f0ade288af2bff4b",
@@ -57,12 +45,6 @@
     ],
   };
   const sideAdBanners = [
-    ...sideCoinpayuBanners.map((banner) => ({
-      ...banner,
-      href: coinpayuUrl,
-      alt: "Join Coinpayu to earn!",
-      className: "side-ad-coinpayu",
-    })),
     ...adsterraReferral.banners
       .filter((banner) => Number(banner.height) > Number(banner.width))
       .map((banner) => ({
@@ -196,9 +178,9 @@
 
   function networkAdKey(slotName) {
     if (networkAdScripts[slotName]) return slotName;
-    if (slotName.includes("bottom")) return "bottom";
-    if (slotName.includes("middle")) return "middle";
-    return "top";
+    if (slotName.includes("bottom") && networkAdScripts.bottom) return "bottom";
+    if (slotName.includes("middle") && networkAdScripts.middle) return "middle";
+    return "";
   }
 
   function networkAdSlot(name, extraClass = "", label = "Ad space") {
@@ -206,16 +188,6 @@
       <section class="ad-banner network-ad-slot ${extraClass}" data-network-ad-slot="${name}" aria-label="مساحة اعلانية">
         <span>${escapeHtml(label)}</span>
       </section>
-    `;
-  }
-
-  function coinpayuAd(banner) {
-    return `
-      <div class="ad-slot ${banner.slotClass}">
-        <a class="affiliate-ad-link" href="${coinpayuUrl}" target="_blank" rel="sponsored noopener">
-          <img src="${banner.src}" width="${banner.width}" height="${banner.height}" alt="Join Coinpayu to earn!" loading="lazy" decoding="async" />
-        </a>
-      </div>
     `;
   }
 
@@ -407,14 +379,15 @@
     const navItems = getPages()
       .map((item) => `<a href="${item.href}">${escapeHtml(item.label)}</a>`)
       .join("");
-    const coinpayuAds = contentCoinpayuBanners.map(coinpayuAd).join("");
 
     target.innerHTML = `
-      ${networkAdSlot("middle", "network-ad-mid")}
+      ${networkAdSlot("footerReservedTop", "network-ad-mid", "Google AdSense")}
       <section class="ad-grid-block" aria-label="مساحات اعلانية قبل الفوتر">
-        ${coinpayuAds}
+        <div class="adsense-reserved-slot" aria-label="Google AdSense reserved slot">
+          <span>Google AdSense</span>
+        </div>
       </section>
-      ${networkAdSlot("top", "footer-ad")}
+      ${networkAdSlot("footerReservedBottom", "footer-ad", "Google AdSense")}
       <footer class="site-footer">
         <nav class="footer-nav" aria-label="روابط الصفحات">${navItems}</nav>
         <div>
@@ -571,7 +544,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260520-layer-ad1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260520-cleanads1", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
