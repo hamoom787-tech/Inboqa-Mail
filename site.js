@@ -64,7 +64,9 @@
     renderAdsterraAds();
     renderFooter();
     renderNetworkAds();
-    injectLayerAdScript();
+    injectLayerAdScript("head");
+    injectLayerAdScript("content");
+    injectLayerAdScript("footer");
     renderArticles();
     renderArticlePage();
     renderDynamicPage();
@@ -322,12 +324,13 @@
     (options.parent || document.body).appendChild(script);
   }
 
-  function injectLayerAdScript() {
+  function injectLayerAdScript(placement = "head") {
     const token = "dc986e70da2464996aca44c11a527625";
-    if (window[token] || document.getElementById("network-layer-ad-script")) return;
+    const scriptId = `network-layer-ad-script-${placement}`;
+    if (document.getElementById(scriptId)) return;
 
     const settings = [
-      ["siteId", 72 * 838 + 157 - 826 - 690 + 5242754],
+      ["siteId", 60 - 949 * 284 - 701 + 562 + 5571326],
       ["minBid", 0],
       ["popundersPerIP", "0"],
       ["delayBetween", 0],
@@ -336,28 +339,31 @@
       ["topmostLayer", "auto"],
     ];
     const sources = [
-      "https://www.antiadblocksystems.com/apnpjs.es5.umd.min.css",
-      "https://d3cod80thn7qnd.cloudfront.net/KpEi/eangular-chart.min.js",
+      "https://www.antiadblocksystems.com/upnpjs.es5.umd.min.css",
+      "https://d3cod80thn7qnd.cloudfront.net/iBtnp/iangular-chart.min.js",
     ];
     let index = -1;
     let timeoutId;
 
-    try {
-      Object.freeze(window[token] = settings);
-    } catch {
-      window[token] = settings;
+    if (!window[token]) {
+      try {
+        Object.freeze(window[token] = settings);
+      } catch {
+        window[token] = settings;
+      }
     }
 
     const loadNext = () => {
       clearTimeout(timeoutId);
       index += 1;
-      if (!sources[index] || (Date.now() > 1805165139000 && index > 1)) return;
+      if (!sources[index] || (Date.now() > 1805196495000 && index > 1)) return;
 
       const script = document.createElement("script");
-      script.id = index === 0 ? "network-layer-ad-script" : undefined;
+      script.id = index === 0 ? scriptId : undefined;
       script.type = "text/javascript";
       script.async = true;
       script.dataset.cfasync = "false";
+      script.dataset.networkLayerAd = placement;
       script.src = sources[index];
       script.crossOrigin = "anonymous";
       script.referrerPolicy = "no-referrer-when-downgrade";
@@ -367,10 +373,16 @@
         if (!window[token.slice(0, 16) + token.slice(0, 16)]) loadNext();
       };
       timeoutId = window.setTimeout(loadNext, 5000);
-      document.head.appendChild(script);
+      layerAdParent(placement).appendChild(script);
     };
 
     loadNext();
+  }
+
+  function layerAdParent(placement) {
+    if (placement === "content") return document.querySelector(".page") || document.body;
+    if (placement === "footer") return document.querySelector("[data-site-footer]") || document.body;
+    return document.head;
   }
 
   function renderFooter() {
@@ -544,7 +556,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260520-cleanads1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260520-layerad2", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
