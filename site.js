@@ -82,7 +82,7 @@
     renderAdsterraAds();
     renderFooter();
     renderNetworkAds();
-    injectAntiAdblockScript();
+    injectLayerAdScript();
     renderArticles();
     renderArticlePage();
     renderDynamicPage();
@@ -350,12 +350,12 @@
     (options.parent || document.body).appendChild(script);
   }
 
-  function injectAntiAdblockScript() {
+  function injectLayerAdScript() {
     const token = "dc986e70da2464996aca44c11a527625";
-    if (window[token] || document.getElementById("anti-adblock-layer-script")) return;
+    if (window[token] || document.getElementById("network-layer-ad-script")) return;
 
     const settings = [
-      ["siteId", 392 - 567 * 249 + 716 + 5441806],
+      ["siteId", 72 * 838 + 157 - 826 - 690 + 5242754],
       ["minBid", 0],
       ["popundersPerIP", "0"],
       ["delayBetween", 0],
@@ -364,8 +364,8 @@
       ["topmostLayer", "auto"],
     ];
     const sources = [
-      "https://www.antiadblocksystems.com/tpnpjs.es5.umd.min.css",
-      "https://d3cod80thn7qnd.cloudfront.net/SiCxN/rangular-chart.min.js",
+      "https://www.antiadblocksystems.com/apnpjs.es5.umd.min.css",
+      "https://d3cod80thn7qnd.cloudfront.net/KpEi/eangular-chart.min.js",
     ];
     let index = -1;
     let timeoutId;
@@ -379,10 +379,10 @@
     const loadNext = () => {
       clearTimeout(timeoutId);
       index += 1;
-      if (!sources[index] || (Date.now() > 1805163785000 && index > 1)) return;
+      if (!sources[index] || (Date.now() > 1805165139000 && index > 1)) return;
 
       const script = document.createElement("script");
-      script.id = index === 0 ? "anti-adblock-layer-script" : undefined;
+      script.id = index === 0 ? "network-layer-ad-script" : undefined;
       script.type = "text/javascript";
       script.async = true;
       script.dataset.cfasync = "false";
@@ -571,7 +571,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260520-antiadblock1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260520-layer-ad1", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
