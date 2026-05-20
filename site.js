@@ -8,18 +8,6 @@
   };
   const networkAdScripts = {};
   const formsAds = {
-    directLinks: [
-      "https://formssternlystately.com/g4yxjb3e8?key=612502a40aaf85f2f0ade288af2bff4b",
-      "https://formssternlystately.com/d5hb1g8yk?key=17b1f880d65cbb60dc0f51c3612af91c",
-    ],
-    directScripts: [
-      "https://formssternlystately.com/4d/90/85/4d908588dc30e0ec27661466b3ef99ae.js",
-      "https://formssternlystately.com/f5/a9/5c/f5a95c78746e60c8c7e4051e3ade4d9a.js",
-    ],
-    invoke: {
-      src: "https://formssternlystately.com/907a1bbc6fb36a2958a8c43c27e64706/invoke.js",
-      containerId: "container-907a1bbc6fb36a2958a8c43c27e64706",
-    },
     atOptions: {
       side: { key: "59d8d807865365b80d8eabb341b162e6", width: 160, height: 600 },
       tower: { key: "30cef0b0a5aae90a6721c224a12acb81", width: 160, height: 300 },
@@ -39,6 +27,8 @@
     "antiadblocksystems.com",
     "www.antiadblocksystems.com",
     "d3cod80thn7qnd.cloudfront.net",
+    "clickaine.com",
+    "www.clickaine.com",
   ]);
   const adsterraReferral = {
     href: "https://beta.publishers.adsterra.com/referral/WMumX6UT3X",
@@ -65,7 +55,6 @@
     renderHeader();
     renderSideRailAds();
     renderFormsAds();
-    injectGlobalFormsScripts();
     renderAdsterraAds();
     renderFooter();
     renderNetworkAds();
@@ -275,18 +264,11 @@
     const block = `
       <section class="ad-banner forms-ad-block" data-forms-ad-block aria-label="Forms ad">
         <div class="forms-leaderboard-ad" data-forms-leaderboard-ad></div>
-        <div class="forms-container-ad" id="${formsAds.invoke.containerId}"></div>
-        <div class="forms-direct-link-ad">
-          <a href="${formsAds.directLinks[0]}" target="_blank" rel="sponsored noopener">Ad link</a>
-        </div>
         <div class="forms-ad-row">
           <div class="forms-rectangle-ad" data-forms-rectangle-ad></div>
           <div class="forms-tower-ad" data-forms-tower-ad></div>
         </div>
         <div class="forms-mobile-ad" data-forms-mobile-ad></div>
-        <div class="forms-direct-link-ad">
-          <a href="${formsAds.directLinks[1]}" target="_blank" rel="sponsored noopener">Ad link</a>
-        </div>
         <div class="adsense-reserved-slot" aria-label="Google AdSense reserved slot"><span>Google AdSense</span></div>
       </section>
     `;
@@ -294,37 +276,10 @@
     if (anchor) anchor.insertAdjacentHTML("afterend", block);
     else page.insertAdjacentHTML("afterbegin", block);
 
-    renderInvokeContainerAd(document.getElementById(formsAds.invoke.containerId));
     renderAtOptionsFrame(document.querySelector("[data-forms-leaderboard-ad]"), formsAds.atOptions.leaderboard, "forms-leaderboard-ad-frame");
     renderAtOptionsFrame(document.querySelector("[data-forms-rectangle-ad]"), formsAds.atOptions.rectangle, "forms-rectangle-ad-frame");
     renderAtOptionsFrame(document.querySelector("[data-forms-tower-ad]"), formsAds.atOptions.tower, "forms-tower-ad-frame");
     renderAtOptionsFrame(document.querySelector("[data-forms-mobile-ad]"), formsAds.atOptions.mobile, "forms-mobile-ad-frame");
-  }
-
-  function renderInvokeContainerAd(target) {
-    if (!target || target.dataset.loaded === "true") return;
-
-    target.dataset.loaded = "true";
-    const frame = document.createElement("iframe");
-    frame.id = "forms-invoke-ad-frame";
-    frame.title = "Advertisement";
-    frame.loading = "lazy";
-    frame.referrerPolicy = "no-referrer-when-downgrade";
-    frame.sandbox = "allow-scripts";
-    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:100%;min-height:260px;display:grid;place-items:center;background:transparent;overflow:hidden}</style></head><body><div id="${formsAds.invoke.containerId}"></div><script async data-cfasync="false" src="${formsAds.invoke.src}"><\/script></body></html>`;
-    target.appendChild(frame);
-  }
-
-  function injectGlobalFormsScripts() {
-    formsAds.directScripts.forEach((src, index) => {
-      if (document.getElementById(`forms-direct-script-${index + 1}`)) return;
-      const script = document.createElement("script");
-      script.id = `forms-direct-script-${index + 1}`;
-      script.src = src;
-      script.async = true;
-      script.referrerPolicy = "no-referrer-when-downgrade";
-      document.body.appendChild(script);
-    });
   }
 
   function renderAdsterraAds() {
@@ -522,7 +477,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260520-safeads1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260520-noadult1", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
