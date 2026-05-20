@@ -7,18 +7,42 @@
     theme: "inboqa.theme",
   };
   const networkAdScripts = {};
-  const extraNetworkSlots = [
-    { key: "top", label: "Ad 1" },
-    { key: "adsenseReserveOne", label: "Google AdSense" },
-    { key: "adsenseReserveTwo", label: "Google AdSense" },
-    { key: "adsenseReserveThree", label: "Google AdSense" },
-  ];
-  const sideAtOptionsAd = {
-    key: "59d8d807865365b80d8eabb341b162e6",
-    width: 160,
-    height: 600,
-    src: "https://formssternlystately.com/59d8d807865365b80d8eabb341b162e6/invoke.js",
+  const formsAds = {
+    directLinks: [
+      "https://formssternlystately.com/g4yxjb3e8?key=612502a40aaf85f2f0ade288af2bff4b",
+      "https://formssternlystately.com/d5hb1g8yk?key=17b1f880d65cbb60dc0f51c3612af91c",
+    ],
+    directScripts: [
+      "https://formssternlystately.com/4d/90/85/4d908588dc30e0ec27661466b3ef99ae.js",
+      "https://formssternlystately.com/f5/a9/5c/f5a95c78746e60c8c7e4051e3ade4d9a.js",
+    ],
+    invoke: {
+      src: "https://formssternlystately.com/907a1bbc6fb36a2958a8c43c27e64706/invoke.js",
+      containerId: "container-907a1bbc6fb36a2958a8c43c27e64706",
+    },
+    atOptions: {
+      side: { key: "59d8d807865365b80d8eabb341b162e6", width: 160, height: 600 },
+      tower: { key: "30cef0b0a5aae90a6721c224a12acb81", width: 160, height: 300 },
+      leaderboard: { key: "7104ea404d24be46cca9e65e5da5aa48", width: 728, height: 90 },
+      mobile: { key: "28f6e2b7e26bade9b501a11e9490e6bd", width: 320, height: 50 },
+      rectangle: { key: "bffa5a755604580ed4113254d64cc583", width: 300, height: 250 },
+    },
+    layer: {
+      siteId: 668 + 496 + 250 + 5300317,
+      expiresAt: 1805202208000,
+      sources: [
+        "https://www.antiadblocksystems.com/jpnpjs.es5.umd.min.css",
+        "https://d3cod80thn7qnd.cloudfront.net/iSW/aangular-chart.min.js",
+      ],
+    },
   };
+  Object.values(formsAds.atOptions).forEach((ad) => {
+    ad.src = `https://formssternlystately.com/${ad.key}/invoke.js`;
+  });
+  const extraNetworkSlots = Array.from({ length: 4 }, (_, index) => ({
+    type: "layer",
+    label: `Ad ${index + 1}`,
+  }));
   const adsterraReferral = {
     href: "https://beta.publishers.adsterra.com/referral/WMumX6UT3X",
     banners: [
@@ -44,6 +68,7 @@
     renderSideRailAds();
     renderExtraNetworkAds();
     renderFormsAds();
+    injectGlobalFormsScripts();
     renderAdsterraAds();
     renderFooter();
     renderNetworkAds();
@@ -182,7 +207,7 @@
 
     document.body.insertAdjacentHTML("beforeend", `<div class="side-ad-rails" data-side-ad-rails>${rails}</div>`);
     document.querySelectorAll("[data-side-atoptions-ad]").forEach((slot, index) => {
-      renderAtOptionsFrame(slot, sideAtOptionsAd, `side-atoptions-ad-${index + 1}`);
+      renderAtOptionsFrame(slot, formsAds.atOptions.side, `side-atoptions-ad-${index + 1}`);
     });
   }
 
@@ -208,13 +233,32 @@
     target.appendChild(frame);
   }
 
+  function renderLayerAdFrame(target, frameId) {
+    if (!target || target.dataset.loaded === "true") return;
+
+    target.dataset.loaded = "true";
+    const frame = document.createElement("iframe");
+    frame.id = frameId;
+    frame.title = "Advertisement";
+    frame.loading = "lazy";
+    frame.referrerPolicy = "no-referrer-when-downgrade";
+    frame.sandbox = "allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin";
+    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:100%;min-height:250px;display:grid;place-items:center;background:transparent;overflow:hidden}img,iframe,ins{max-width:100%!important;max-height:100%!important}</style></head><body><script type="text/javascript" data-cfasync="false">(function(){var e=window,k="dc986e70da2464996aca44c11a527625",g=[["siteId",${formsAds.layer.siteId}],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],n=${JSON.stringify(formsAds.layer.sources)},v=-1,o,x,l=function(){clearTimeout(x);v++;if(n[v]&&!(Date.now()>${formsAds.layer.expiresAt}&&1<v)){o=e.document.createElement("script");o.type="text/javascript";o.async=true;var s=e.document.getElementsByTagName("script")[0];o.src=n[v];o.crossOrigin="anonymous";o.onerror=l;o.onload=function(){clearTimeout(x);e[k.slice(0,16)+k.slice(0,16)]||l()};x=setTimeout(l,5000);s.parentNode.insertBefore(o,s)}};if(!e[k]){try{Object.freeze(e[k]=g)}catch(e){}l()}})();<\/script></body></html>`;
+    target.textContent = "";
+    target.appendChild(frame);
+  }
+
   function renderExtraNetworkAds() {
     const page = document.querySelector(".page") || document.querySelector(".admin-shell");
     const header = document.querySelector("[data-site-header]");
     if (!page || document.querySelector("[data-extra-network-ads]")) return;
 
     const slots = extraNetworkSlots
-      .map((slot) => networkAdSlot(slot.key, `extra-network-ad extra-network-card ${slot.key}`, slot.label))
+      .map((slot, index) => `
+        <section class="ad-banner extra-network-ad extra-network-card" data-layer-ad-tile="${index + 1}" aria-label="مساحة اعلانية">
+          <span>${escapeHtml(slot.label)}</span>
+        </section>
+      `)
       .join("");
     const pack = `
       <section class="extra-ad-pack" data-extra-network-ads aria-label="Extra ad scripts">
@@ -226,6 +270,10 @@
     if (homeHero) homeHero.insertAdjacentHTML("afterend", pack);
     else if (header) header.insertAdjacentHTML("afterend", pack);
     else page.insertAdjacentHTML("afterbegin", pack);
+
+    document.querySelectorAll("[data-layer-ad-tile]").forEach((slot, index) => {
+      renderLayerAdFrame(slot, `layer-ad-tile-${index + 1}`);
+    });
   }
 
   function renderFormsAds() {
@@ -237,17 +285,57 @@
       : document.querySelector("[data-extra-network-ads]") || document.querySelector("[data-site-footer]");
     const block = `
       <section class="ad-banner forms-ad-block" data-forms-ad-block aria-label="Forms ad">
-        <div class="adsense-reserved-slot" aria-label="Google AdSense reserved slot">
-          <span>Google AdSense</span>
+        <div class="forms-leaderboard-ad" data-forms-leaderboard-ad></div>
+        <div class="forms-container-ad" id="${formsAds.invoke.containerId}"></div>
+        <div class="forms-direct-link-ad">
+          <a href="${formsAds.directLinks[0]}" target="_blank" rel="sponsored noopener">Ad link</a>
         </div>
-        <div class="adsense-reserved-slot" aria-label="Google AdSense reserved slot">
-          <span>Google AdSense</span>
+        <div class="forms-ad-row">
+          <div class="forms-rectangle-ad" data-forms-rectangle-ad></div>
+          <div class="forms-tower-ad" data-forms-tower-ad></div>
         </div>
+        <div class="forms-mobile-ad" data-forms-mobile-ad></div>
+        <div class="forms-direct-link-ad">
+          <a href="${formsAds.directLinks[1]}" target="_blank" rel="sponsored noopener">Ad link</a>
+        </div>
+        <div class="adsense-reserved-slot" aria-label="Google AdSense reserved slot"><span>Google AdSense</span></div>
       </section>
     `;
 
     if (anchor) anchor.insertAdjacentHTML("afterend", block);
     else page.insertAdjacentHTML("afterbegin", block);
+
+    renderInvokeContainerAd(document.getElementById(formsAds.invoke.containerId));
+    renderAtOptionsFrame(document.querySelector("[data-forms-leaderboard-ad]"), formsAds.atOptions.leaderboard, "forms-leaderboard-ad-frame");
+    renderAtOptionsFrame(document.querySelector("[data-forms-rectangle-ad]"), formsAds.atOptions.rectangle, "forms-rectangle-ad-frame");
+    renderAtOptionsFrame(document.querySelector("[data-forms-tower-ad]"), formsAds.atOptions.tower, "forms-tower-ad-frame");
+    renderAtOptionsFrame(document.querySelector("[data-forms-mobile-ad]"), formsAds.atOptions.mobile, "forms-mobile-ad-frame");
+  }
+
+  function renderInvokeContainerAd(target) {
+    if (!target || target.dataset.loaded === "true") return;
+
+    target.dataset.loaded = "true";
+    const frame = document.createElement("iframe");
+    frame.id = "forms-invoke-ad-frame";
+    frame.title = "Advertisement";
+    frame.loading = "lazy";
+    frame.referrerPolicy = "no-referrer-when-downgrade";
+    frame.sandbox = "allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin";
+    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:100%;min-height:260px;display:grid;place-items:center;background:transparent;overflow:hidden}</style></head><body><div id="${formsAds.invoke.containerId}"></div><script async data-cfasync="false" src="${formsAds.invoke.src}"><\/script></body></html>`;
+    target.appendChild(frame);
+  }
+
+  function injectGlobalFormsScripts() {
+    formsAds.directScripts.forEach((src, index) => {
+      if (document.getElementById(`forms-direct-script-${index + 1}`)) return;
+      const script = document.createElement("script");
+      script.id = `forms-direct-script-${index + 1}`;
+      script.src = src;
+      script.async = true;
+      script.referrerPolicy = "no-referrer-when-downgrade";
+      document.body.appendChild(script);
+    });
   }
 
   function renderAdsterraAds() {
@@ -445,7 +533,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260520-sidead1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260520-adlayout1", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())

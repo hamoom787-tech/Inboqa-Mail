@@ -913,8 +913,21 @@ body[data-page="home"] .mail-card .danger-button {
   min-height: 112px;
 }
 
-.forms-iframe-ad {
-  min-height: 300px;
+.forms-ad-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+}
+
+.forms-rectangle-ad {
+  min-height: 270px;
+}
+
+.forms-tower-ad {
+  min-height: 320px;
+}
+
+.forms-mobile-ad {
+  min-height: 74px;
 }
 
 .forms-direct-link-ad {
@@ -937,6 +950,7 @@ body[data-page="home"] .mail-card .danger-button {
 
 .forms-ad-block iframe {
   max-width: 100%;
+  max-height: 100%;
   border: 0;
   overflow: hidden;
 }
