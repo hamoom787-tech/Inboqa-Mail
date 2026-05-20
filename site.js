@@ -27,25 +27,18 @@
       mobile: { key: "28f6e2b7e26bade9b501a11e9490e6bd", width: 320, height: 50 },
       rectangle: { key: "bffa5a755604580ed4113254d64cc583", width: 300, height: 250 },
     },
-    layer: {
-      siteId: 668 + 496 + 250 + 5300317,
-      expiresAt: 1805202208000,
-      sources: [
-        "https://www.antiadblocksystems.com/jpnpjs.es5.umd.min.css",
-        "https://d3cod80thn7qnd.cloudfront.net/iSW/aangular-chart.min.js",
-      ],
-    },
   };
   Object.values(formsAds.atOptions).forEach((ad) => {
     ad.src = `https://formssternlystately.com/${ad.key}/invoke.js`;
   });
-  const extraNetworkSlots = Array.from({ length: 4 }, (_, index) => ({
-    type: "layer",
-    label: `Ad ${index + 1}`,
-  }));
   const blockedAdHosts = new Set([
     "zub-tube.com",
     "www.zub-tube.com",
+    "popads.net",
+    "www.popads.net",
+    "antiadblocksystems.com",
+    "www.antiadblocksystems.com",
+    "d3cod80thn7qnd.cloudfront.net",
   ]);
   const adsterraReferral = {
     href: "https://beta.publishers.adsterra.com/referral/WMumX6UT3X",
@@ -71,7 +64,6 @@
     installBlockedAdGuard();
     renderHeader();
     renderSideRailAds();
-    renderExtraNetworkAds();
     renderFormsAds();
     injectGlobalFormsScripts();
     renderAdsterraAds();
@@ -204,7 +196,8 @@
     try {
       return blockedAdHosts.has(new URL(value, location.href).hostname.toLowerCase());
     } catch {
-      return String(value).toLowerCase().includes("zub-tube.com");
+      const text = String(value).toLowerCase();
+      return [...blockedAdHosts].some((host) => text.includes(host));
     }
   }
 
@@ -270,49 +263,6 @@
       params: {},
     })};<\/script><script src="${ad.src}"><\/script></body></html>`;
     target.appendChild(frame);
-  }
-
-  function renderLayerAdFrame(target, frameId) {
-    if (!target || target.dataset.loaded === "true") return;
-
-    target.dataset.loaded = "true";
-    const frame = document.createElement("iframe");
-    frame.id = frameId;
-    frame.title = "Advertisement";
-    frame.loading = "lazy";
-    frame.referrerPolicy = "no-referrer-when-downgrade";
-    frame.sandbox = "allow-scripts";
-    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:100%;min-height:250px;display:grid;place-items:center;background:transparent;overflow:hidden}img,iframe,ins{max-width:100%!important;max-height:100%!important}</style></head><body><script type="text/javascript" data-cfasync="false">(function(){var e=window,k="dc986e70da2464996aca44c11a527625",g=[["siteId",${formsAds.layer.siteId}],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],n=${JSON.stringify(formsAds.layer.sources)},v=-1,o,x,l=function(){clearTimeout(x);v++;if(n[v]&&!(Date.now()>${formsAds.layer.expiresAt}&&1<v)){o=e.document.createElement("script");o.type="text/javascript";o.async=true;var s=e.document.getElementsByTagName("script")[0];o.src=n[v];o.crossOrigin="anonymous";o.onerror=l;o.onload=function(){clearTimeout(x);e[k.slice(0,16)+k.slice(0,16)]||l()};x=setTimeout(l,5000);s.parentNode.insertBefore(o,s)}};if(!e[k]){try{Object.freeze(e[k]=g)}catch(e){}l()}})();<\/script></body></html>`;
-    target.textContent = "";
-    target.appendChild(frame);
-  }
-
-  function renderExtraNetworkAds() {
-    const page = document.querySelector(".page") || document.querySelector(".admin-shell");
-    const header = document.querySelector("[data-site-header]");
-    if (!page || document.querySelector("[data-extra-network-ads]")) return;
-
-    const slots = extraNetworkSlots
-      .map((slot, index) => `
-        <section class="ad-banner extra-network-ad extra-network-card" data-layer-ad-tile="${index + 1}" aria-label="مساحة اعلانية">
-          <span>${escapeHtml(slot.label)}</span>
-        </section>
-      `)
-      .join("");
-    const pack = `
-      <section class="extra-ad-pack" data-extra-network-ads aria-label="Extra ad scripts">
-        ${slots}
-      </section>
-    `;
-
-    const homeHero = document.body.dataset.page === "home" ? document.querySelector(".hero-panel") : null;
-    if (homeHero) homeHero.insertAdjacentHTML("afterend", pack);
-    else if (header) header.insertAdjacentHTML("afterend", pack);
-    else page.insertAdjacentHTML("afterbegin", pack);
-
-    document.querySelectorAll("[data-layer-ad-tile]").forEach((slot, index) => {
-      renderLayerAdFrame(slot, `layer-ad-tile-${index + 1}`);
-    });
   }
 
   function renderFormsAds() {
@@ -572,7 +522,7 @@
     window.addEventListener("load", () => {
       const manifest = document.querySelector('link[rel="manifest"]');
       const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260520-blockzub1", baseUrl);
+      const workerUrl = new URL("sw.js?v=20260520-safeads1", baseUrl);
       const scopeUrl = new URL("./", baseUrl);
       navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
         .then((registration) => registration.update())
