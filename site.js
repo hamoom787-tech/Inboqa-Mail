@@ -9,16 +9,12 @@
   function initSite() {
     hydrateTheme();
     renderHeader();
-    renderAdsensePlaceholders();
-    renderDirectAdLink();
-    installQugeAdTags();
     renderFooter();
     renderArticles();
     renderArticlePage();
     renderDynamicPage();
     renderCustomSections();
     bindTheme();
-    registerServiceWorker();
     refreshIcons();
   }
 
@@ -90,79 +86,6 @@
         </div>
       </header>
     `;
-  }
-
-  function adSensePlaceholder(name, extraClass = "") {
-    return `
-      <section class="adsense-reserved-slot ${extraClass}" data-adsense-placeholder="${escapeHtml(name)}" aria-label="Google AdSense ad space">
-        <span>Google AdSense</span>
-      </section>
-    `;
-  }
-
-  function renderAdsensePlaceholders() {
-    const page = document.querySelector(".page") || document.querySelector(".admin-shell");
-    if (!page || document.querySelector("[data-adsense-placeholders]")) return;
-
-    const topAnchor = document.body.dataset.page === "home"
-      ? document.querySelector(".hero-panel")
-      : document.querySelector("[data-site-header]");
-    const middleAnchor = document.body.dataset.page === "home"
-      ? document.querySelector("#inbox")
-      : document.querySelector(".content-section");
-    const footerAnchor = document.querySelector("[data-site-footer]");
-
-    const group = document.createElement("div");
-    group.className = "adsense-placeholder-group";
-    group.dataset.adsensePlaceholders = "true";
-
-    const topSlot = adSensePlaceholder("top", "page-ad adsense-wide");
-    const middleSlot = adSensePlaceholder("middle", "adsense-wide");
-    const bottomSlot = adSensePlaceholder("bottom", "footer-ad adsense-wide");
-
-    if (topAnchor) topAnchor.insertAdjacentHTML("afterend", topSlot);
-    else page.insertAdjacentHTML("afterbegin", topSlot);
-
-    if (middleAnchor) middleAnchor.insertAdjacentHTML("afterend", middleSlot);
-
-    if (footerAnchor) footerAnchor.insertAdjacentHTML("beforebegin", bottomSlot);
-    else page.insertAdjacentHTML("beforeend", bottomSlot);
-
-    page.appendChild(group);
-  }
-
-  function renderDirectAdLink() {
-    const page = document.querySelector(".page") || document.querySelector(".admin-shell");
-    if (!page || document.querySelector("[data-direct-ad-link]")) return;
-
-    const anchor = document.body.dataset.page === "home"
-      ? document.querySelector("#inbox")
-      : document.querySelector(".adsense-reserved-slot");
-
-    const markup = `
-      <section class="external-direct-ad" data-direct-ad-link>
-        <a href="https://omg10.com/4/11039152" target="_blank" rel="nofollow sponsored noopener">
-          Sponsored link
-        </a>
-      </section>
-    `;
-
-    if (anchor) anchor.insertAdjacentHTML("afterend", markup);
-    else page.insertAdjacentHTML("beforeend", markup);
-  }
-
-  function installQugeAdTags() {
-    if (document.querySelector("[data-quge-zone='241696']")) return;
-
-    ["241696", "241694"].forEach((zone) => {
-      const script = document.createElement("script");
-      script.src = "https://quge5.com/88/tag.min.js";
-      script.async = true;
-      script.dataset.zone = zone;
-      script.dataset.cfasync = "false";
-      script.dataset.qugeZone = zone;
-      document.head.appendChild(script);
-    });
   }
 
   function renderFooter() {
@@ -321,20 +244,6 @@
 
   function refreshIcons() {
     if (window.lucide) window.lucide.createIcons();
-  }
-
-  function registerServiceWorker() {
-    if (!("serviceWorker" in navigator) || location.protocol !== "https:") return;
-
-    window.addEventListener("load", () => {
-      const manifest = document.querySelector('link[rel="manifest"]');
-      const baseUrl = manifest ? manifest.href : new URL("site.webmanifest", location.href).href;
-      const workerUrl = new URL("sw.js?v=20260520-adsenseonly2", baseUrl);
-      const scopeUrl = new URL("./", baseUrl);
-      navigator.serviceWorker.register(workerUrl, { scope: scopeUrl.pathname })
-        .then((registration) => registration.update())
-        .catch(() => {});
-    });
   }
 
   window.InboqaSite = {

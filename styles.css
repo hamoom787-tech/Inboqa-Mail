@@ -159,8 +159,7 @@ body[data-page="home"] .topbar .brand {
 .topbar,
 .hero-panel,
 .inbox-panel,
-.detail-panel,
-.adsense-reserved-slot {
+.detail-panel {
   border: 1px solid var(--line);
   background: color-mix(in srgb, var(--surface) 92%, transparent);
   box-shadow: var(--shadow);
@@ -624,60 +623,6 @@ body[data-page="home"] .mail-card .danger-button {
 .footer-ad {
   margin-top: 22px;
   margin-bottom: 0;
-}
-
-.adsense-placeholder-group {
-  display: none;
-}
-
-.adsense-reserved-slot {
-  display: grid;
-  width: min(1180px, calc(100% - 40px));
-  min-height: 96px;
-  place-items: center;
-  margin: 18px auto;
-  padding: 16px;
-  border: 1px dashed var(--line);
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--surface-2) 86%, transparent);
-}
-
-.adsense-reserved-slot span {
-  color: var(--muted);
-  font-weight: 800;
-}
-
-.external-direct-ad {
-  display: grid;
-  place-items: center;
-  width: min(1180px, calc(100% - 40px));
-  min-height: 72px;
-  margin: 18px auto;
-  border: 1px dashed var(--line);
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--surface-2) 86%, transparent);
-  text-align: center;
-}
-
-.external-direct-ad a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 42px;
-  padding: 0 22px;
-  border-radius: var(--radius);
-  background: var(--brand);
-  color: #fff;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.external-direct-ad a:hover {
-  background: var(--brand-2);
-}
-
-body[data-page="home"] .adsense-reserved-slot {
-  width: min(1180px, calc(100% - 40px));
 }
 
 
