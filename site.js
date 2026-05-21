@@ -10,6 +10,8 @@
     hydrateTheme();
     renderHeader();
     renderAdsensePlaceholders();
+    renderDirectAdLink();
+    installQugeAdTags();
     renderFooter();
     renderArticles();
     renderArticlePage();
@@ -127,6 +129,40 @@
     else page.insertAdjacentHTML("beforeend", bottomSlot);
 
     page.appendChild(group);
+  }
+
+  function renderDirectAdLink() {
+    const page = document.querySelector(".page") || document.querySelector(".admin-shell");
+    if (!page || document.querySelector("[data-direct-ad-link]")) return;
+
+    const anchor = document.body.dataset.page === "home"
+      ? document.querySelector("#inbox")
+      : document.querySelector(".adsense-reserved-slot");
+
+    const markup = `
+      <section class="external-direct-ad" data-direct-ad-link>
+        <a href="https://omg10.com/4/11039152" target="_blank" rel="nofollow sponsored noopener">
+          Sponsored link
+        </a>
+      </section>
+    `;
+
+    if (anchor) anchor.insertAdjacentHTML("afterend", markup);
+    else page.insertAdjacentHTML("beforeend", markup);
+  }
+
+  function installQugeAdTags() {
+    if (document.querySelector("[data-quge-zone='241696']")) return;
+
+    ["241696", "241694"].forEach((zone) => {
+      const script = document.createElement("script");
+      script.src = "https://quge5.com/88/tag.min.js";
+      script.async = true;
+      script.dataset.zone = zone;
+      script.dataset.cfasync = "false";
+      script.dataset.qugeZone = zone;
+      document.head.appendChild(script);
+    });
   }
 
   function renderFooter() {
